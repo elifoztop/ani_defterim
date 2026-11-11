@@ -188,6 +188,8 @@ Elle deneme: yapıldı. Çizimler onaylandı.
 
 Elle deneme: yapıldı (canlı bağlantıda hızlı deneme; Aşama 2'de denenmeyen bozuk kayıt, depolama doldurma ve iki sekme senaryoları dahil).
 
+Kabul testleri (SPEC 11, 1–14): yapıldı.
+
 ## Ek — Sayfa çevirme animasyonu (karar 99)
 
 Elle deneme: yapıldı.

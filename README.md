@@ -9,9 +9,7 @@ Bu proje bir web geliştirme eğitim programının bitirme projesidir ve "Web Ge
 **Canlı bağlantı:** https://ani-defterim.netlify.app
 **Depo:** https://github.com/elifoztop/ani_defterim
 
-![Anı Defterim ekran görüntüsü](docs/screenshots/defter.png)
-
-*Ekran görüntüsündeki içerik örnektir. Fotoğraf, tarayıcıda çizilmiş basit bir manzaradır.*
+![Anı Defterim ekran görüntüsü](<docs/Anı Defterim_ Pastel Dijital Günlük.png>)
 
 ## Özellikler
 
