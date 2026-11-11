@@ -42,10 +42,10 @@ Bu dosya, projenin hangi aşamasında yapay zekânın nasıl kullanıldığını
   - Bileşenleri yazdı: `TopBar`, `SaveStatus`, `Notebook`, `Page`, `PageTitle`, `EmptyFace`, `PageBar`, `Toolbar`, `SidePanel`, `StorageMeter`, `NarrowScreenNotice`, `Icon`. İşlevi olmayan bütün butonlar pasif.
   - DECISIONS'a 51–59 arası kararları ekledi.
 - Kullanılan eklenti / komut: Claude Code (Bash, Read, Write, Edit), `curl` ile font indirme, `npm run build`, `npm run lint`, `npm test`. context7 eklentisi bu oturumda giriş istediği için kullanılamadı. Bu aşamada React 19'a özgü bir API ya da Pointer Events kullanılmadı. Yalnızca bileşen ve CSS yazıldı.
-- Benim kontrol ettiğim ya da değiştirdiğim: (bunu ben doldururum)
+- Benim kontrol ettiğim ya da değiştirdiğim: Yerleşimi tarayıcıda referans görselle karşılaştırdım. Ayracın sağ sayfa başlığını kapattığını fark edip düzelttirdim. Projeyi GitHub'a gönderdim, Netlify'da yayına aldım ve herkese açık yaptım. Canlı adreste ekran boyutu testlerini yaptım.
+- Depo: https://github.com/elifoztop/ani_defterim (public)
+- Canlı adres: https://ani-defterim.netlify.app
 - Bilinen eksikler:
-  - Claude tarayıcıyı göremez. Yerleşim 1440, 1024 ve 800 px'te elle test bekliyor.
-  - Netlify ilk yayınını kullanıcı yapacak (karar 38). Adımlar TEST-CHECKLIST'te.
   - Panel sekme geçişi, sayfa gezintisi ve bütün butonlar Aşama 2–4'te bağlanacak. `previewData.js` geçicidir, Aşama 2'de silinecek.
   - TTF dosyaları toplam yaklaşık 1,1 MB. `font-display: swap` sayesinde yazı hemen görünür, font sonra yüklenir.
 - Elle test sonrası düzeltme:

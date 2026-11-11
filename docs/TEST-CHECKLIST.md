@@ -80,5 +80,9 @@ Hazırlık: `npm install` (gerekirse), sonra `npm run dev`. Tarayıcıda göster
 3. Ayarlar `netlify.toml` dosyasından gelir: build komutu `npm run build`, yayın klasörü `dist`. Elle değiştirme.
 4. "Deploy" düğmesine bas. Yayın bitince verilen bağlantıyı aç.
 
-- [ ] Canlı bağlantı açılıyor ve 1440 px görünümü yereldeki ile aynı.
-- [ ] Canlı bağlantıda fontlar yükleniyor (Network sekmesinde 404 yok).
+Depo: https://github.com/elifoztop/ani_defterim (public) · Canlı adres: https://ani-defterim.netlify.app
+
+- [x] Canlı bağlantı açılıyor ve 1440 px görünümü yereldeki ile aynı.
+- [x] Canlı bağlantıda fontlar yükleniyor (Network sekmesinde 404 yok).
+- [x] Canlı bağlantı gizli pencerede giriş istemeden açılıyor (Netlify projesi public).
+- [x] Canlı bağlantıda konsolda hata yok. 1024 × 768'de bütün alanlar sığıyor. 800 px'te yalnızca bilgi kartı görünüyor.
