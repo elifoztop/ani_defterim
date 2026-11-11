@@ -1,6 +1,6 @@
 import { notebookReducer } from './notebookReducer.js'
 import { createHistory, historyReducer } from './history.js'
-import { createInitialUi, reconcileUi, uiReducer } from './uiReducer.js'
+import { createInitialUi, reconcileUi, sameUi, uiReducer } from './uiReducer.js'
 
 const reduceHistory = historyReducer(notebookReducer)
 const HISTORY_PREFIXES = ['page/', 'item/', 'history/']
@@ -20,11 +20,12 @@ export function appReducer(state, action) {
   const focusPageId =
     isUndoRedo(action.type) && history !== state.history ? history.lastChangedPageId : null
 
-  const ui = reconcileUi(uiReducer(state.ui, action, notebook), {
+  const reconciled = reconcileUi(uiReducer(state.ui, action, notebook), {
     prev: state.history.present,
     next: notebook,
     focusPageId,
   })
+  const ui = sameUi(state.ui, reconciled) ? state.ui : reconciled
 
   if (history === state.history && ui === state.ui) return state
   return { history, ui }

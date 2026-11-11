@@ -2,6 +2,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { appReducer, createInitialState } from '../src/state/appReducer.js'
 import { createEmptyNotebook, createPage, displayTitle } from '../src/state/model.js'
+import { addLibraryItemAction, addTextAction } from '../src/state/actions.js'
 import { createMemoryStorage, loadNotebook, loadPrefs, saveNotebook, savePrefs } from '../src/state/storage.js'
 
 const act = (state, type, payload) => appReducer(state, { type, payload })
@@ -118,4 +119,72 @@ test('UI eylemleri geçmişe girmez', () => {
   state = act(state, 'ui/setSpread', { spreadIndex: 0 })
   state = act(state, 'ui/setPanelTab', { tab: 'decorations' })
   assert.equal(state.history.past.length, pastLength)
+})
+
+const STAR = { id: 'star', kind: 'sticker', size: { w: 140, h: 140 } }
+const pageItems = (state, index = 0) => state.history.present.pages[index].items
+
+test('yazı ekle: nesne seçilir, düzenleme modunda açılır, panel Özellikler olur', () => {
+  let state = createInitialState(createEmptyNotebook(), {})
+  state = appReducer(state, addTextAction(state.ui.activePageId))
+  const id = pageItems(state)[0].id
+  assert.equal(state.ui.selectedItemId, id)
+  assert.equal(state.ui.editingItemId, id)
+  assert.equal(state.ui.panelTab, 'properties')
+})
+
+test('seçili nesne silinince seçim kalkar ve panel son kütüphane sekmesine döner', () => {
+  let state = createInitialState(createEmptyNotebook(), { panelTab: 'decorations' })
+  state = appReducer(state, addLibraryItemAction(state.ui.activePageId, STAR))
+  const id = pageItems(state)[0].id
+  state = act(state, 'item/delete', { pageId: state.ui.activePageId, itemId: id })
+  assert.equal(state.ui.selectedItemId, null)
+  assert.equal(state.ui.panelTab, 'decorations')
+})
+
+test('5 eylem, 5 geri al, 5 yinele: durum doğru (kabul testi 8)', () => {
+  let state = createInitialState(createEmptyNotebook(), {})
+  const pageId = state.ui.activePageId
+  state = appReducer(state, addLibraryItemAction(pageId, STAR, () => 0.5))
+  const itemId = pageItems(state)[0].id
+  const target = { pageId, itemId }
+  state = act(state, 'item/transform', { ...target, x: 200, y: 200, w: 140, h: 140, rotation: 0 })
+  state = act(state, 'item/transform', { ...target, x: 200, y: 200, w: 200, h: 200, rotation: 0 })
+  state = act(state, 'item/transform', { ...target, x: 200, y: 200, w: 200, h: 200, rotation: 30 })
+  state = appReducer(state, addTextAction(pageId))
+  const final = state.history.present
+  for (let i = 0; i < 5; i += 1) state = act(state, 'history/undo')
+  assert.equal(pageItems(state).length, 0)
+  for (let i = 0; i < 5; i += 1) state = act(state, 'history/redo')
+  assert.deepEqual(state.history.present, final)
+})
+
+test('item/measure yeni adım açmaz, yinele geçmişini silmez', () => {
+  let state = createInitialState(createEmptyNotebook(), {})
+  const pageId = state.ui.activePageId
+  state = appReducer(state, addTextAction(pageId))
+  const itemId = pageItems(state)[0].id
+  state = act(state, 'item/updateProps', { pageId, itemId, props: { size: 60 } })
+  state = act(state, 'history/undo')
+  const { past, future } = state.history
+  state = act(state, 'item/measure', { pageId, itemId, h: 80 })
+  assert.equal(pageItems(state)[0].h, 80)
+  assert.equal(state.history.past, past)
+  assert.equal(state.history.future, future)
+})
+
+test('başka açık defterdeki nesnenin değişikliği geri alınınca o açık deftere geçilir', () => {
+  let state = createInitialState(createEmptyNotebook(), {})
+  const firstPage = state.ui.activePageId
+  state = appReducer(state, addLibraryItemAction(firstPage, STAR))
+  const itemId = pageItems(state)[0].id
+  state = act(state, 'item/transform', { pageId: firstPage, itemId, x: 300, y: 300, w: 140, h: 140, rotation: 0 })
+  state = addPages(state, 2)
+  assert.equal(state.ui.spreadIndex, 1)
+  state = act(state, 'history/undo')
+  state = act(state, 'history/undo')
+  state = act(state, 'history/undo')
+  assert.equal(state.ui.spreadIndex, 0)
+  assert.equal(state.ui.activePageId, firstPage)
+  assert.equal(pageItems(state)[0].x, 400)
 })

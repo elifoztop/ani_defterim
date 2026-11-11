@@ -14,6 +14,14 @@ export function findItemPageId(notebook, itemId) {
   return page ? page.id : null
 }
 
+export function findItem(notebook, itemId) {
+  for (const page of notebook.pages) {
+    const item = page.items.find((i) => i.id === itemId)
+    if (item) return { item, pageId: page.id }
+  }
+  return null
+}
+
 function clearSelection(ui) {
   const panelTab = ui.panelTab === 'properties' ? ui.lastLibraryTab : ui.panelTab
   return { ...ui, selectedItemId: null, editingItemId: null, panelTab }
@@ -43,6 +51,14 @@ function setPanelTab(ui, tab) {
   return ui
 }
 
+// Yeni nesne seçilir. Yazı nesnesi düzenleme modunda açılır (SPEC 6.4).
+function selectNewItem(ui, notebook, item) {
+  const pageId = item && findItemPageId(notebook, item.id)
+  if (!pageId) return ui
+  const editingItemId = item.type === 'text' ? item.id : null
+  return { ...ui, selectedItemId: item.id, editingItemId, activePageId: pageId, panelTab: 'properties' }
+}
+
 export function uiReducer(ui, action, notebook) {
   const payload = action.payload ?? {}
   switch (action.type) {
@@ -60,6 +76,8 @@ export function uiReducer(ui, action, notebook) {
       return { ...ui, editingItemId: null }
     case 'ui/setPanelTab':
       return setPanelTab(ui, payload.tab)
+    case 'item/add':
+      return selectNewItem(ui, notebook, payload.item)
     case 'page/add':
       if (pageIndex(notebook, payload.page?.id) < 0) return ui
       return { ...goToSpread(ui, notebook, spreadOfPage(notebook, payload.page.id)), activePageId: payload.page.id }
@@ -81,7 +99,7 @@ function isOnSpread(notebook, spreadIndex, pageId) {
   return index >= 0 && Math.floor(index / 2) === spreadIndex
 }
 
-function sameUi(a, b) {
+export function sameUi(a, b) {
   return Object.keys(a).every((key) => a[key] === b[key])
 }
 

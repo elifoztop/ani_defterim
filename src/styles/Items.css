@@ -1,0 +1,112 @@
+.item-frame {
+  position: absolute;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.item-frame:active {
+  cursor: grabbing;
+}
+
+.item-frame--selected {
+  outline: 1.5px dashed var(--accent-lavender);
+  outline-offset: calc(var(--u) * 6);
+}
+
+.item-frame--editing {
+  cursor: text;
+  user-select: text;
+}
+
+.item-frame__handle {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--accent-lavender);
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: 0 1px 3px rgba(48, 43, 39, 0.35);
+}
+
+.item-frame__handle--resize {
+  right: calc(var(--u) * -6 - 7px);
+  bottom: calc(var(--u) * -6 - 7px);
+  border-radius: 3px;
+  cursor: nwse-resize;
+}
+
+.item-frame__handle--rotate {
+  top: calc(var(--u) * -6 - 30px);
+  left: calc(50% - 7px);
+  cursor: grab;
+}
+
+.item-frame__handle--rotate::after {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 4px;
+  width: 2px;
+  height: 14px;
+  background: var(--accent-lavender);
+}
+
+.text-item {
+  color: var(--ink);
+  line-height: 1.25;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.text-editor {
+  display: grid;
+}
+
+.text-editor__mirror,
+.text-editor__input {
+  grid-area: 1 / 1;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  letter-spacing: inherit;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.text-editor__mirror {
+  visibility: hidden;
+}
+
+.text-editor__input {
+  overflow: hidden;
+  border: 0;
+  outline: none;
+  resize: none;
+  background: rgba(182, 160, 212, 0.12);
+  color: inherit;
+  text-align: inherit;
+}
+
+.placeholder {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  color: var(--vintage-umber);
+  font-family: var(--font-type);
+  font-size: calc(var(--u) * 18);
+  text-align: center;
+}
+
+.placeholder--sticker {
+  border: calc(var(--u) * 6) solid var(--accent-cream);
+  border-radius: calc(var(--u) * 24);
+  background: rgba(184, 154, 120, 0.35);
+  box-shadow: 0 calc(var(--u) * 3) calc(var(--u) * 6) rgba(48, 43, 39, 0.2);
+}
+
+.placeholder--decoration {
+  border: calc(var(--u) * 2) dashed var(--vintage-sepia);
+  background: rgba(167, 182, 155, 0.35);
+}

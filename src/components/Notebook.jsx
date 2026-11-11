@@ -2,8 +2,8 @@ import Page from './Page.jsx'
 import EmptyFace from './EmptyFace.jsx'
 import '../styles/Notebook.css'
 
-export default function Notebook({ leftPage, leftIndex, rightPage, activePageId, canAdd, onAddPage, onActivate, onRename }) {
-  const pageProps = { activePageId, onActivate, onRename }
+export default function Notebook({ leftPage, leftIndex, rightPage, activePageId, canAdd, onAddPage, onActivate, onRename, editor }) {
+  const pageProps = { activePageId, onActivate, onRename, editor }
   return (
     <div className="notebook-stage">
       <div className="notebook">

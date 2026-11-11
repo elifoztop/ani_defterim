@@ -1,4 +1,5 @@
 import { MAX_PAGES, TITLE_MAX } from './constants.js'
+import { reduceItems } from './itemReducer.js'
 
 // Bütün notebook değişiklikleri buradan geçer. Reducer saftır: id ve zaman üretmez (karar 40).
 // Değişiklik yoksa aynı nesneyi döndürür; geçmiş bu durumda yeni adım açmaz.
@@ -34,6 +35,6 @@ export function notebookReducer(notebook, action) {
     case 'page/rename':
       return renamePage(notebook, action.payload)
     default:
-      return notebook
+      return action.type.startsWith('item/') ? reduceItems(notebook, action) : notebook
   }
 }

@@ -10,13 +10,16 @@ import Toast from './components/Toast.jsx'
 import ConfirmDialog from './components/ConfirmDialog.jsx'
 import { appReducer, createInitialState } from './state/appReducer.js'
 import { canRedo, canUndo } from './state/history.js'
-import { createPage, displayTitle } from './state/model.js'
-import { spreadCount } from './state/uiReducer.js'
+import { displayTitle } from './state/model.js'
+import { addLibraryItemAction, addPageAction, addTextAction } from './state/actions.js'
+import { findItem, spreadCount } from './state/uiReducer.js'
 import { MAX_PAGES } from './state/constants.js'
 import { usageRatio } from './state/storage.js'
 import { useAutosave } from './hooks/useAutosave.js'
 import { useCrossTabGuard } from './hooks/useCrossTabGuard.js'
 import { usePrefs } from './hooks/usePrefs.js'
+import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts.js'
+import { createEditor } from './lib/editor.js'
 import { MESSAGES, deletePageQuestion } from './lib/messages.js'
 import './styles/layout.css'
 
@@ -26,6 +29,7 @@ export default function App({ boot }) {
   const [state, dispatch] = useReducer(appReducer, boot, initState)
   const [toast, setToast] = useState(boot.notice ? MESSAGES[boot.notice] : null)
   const [pendingDelete, setPendingDelete] = useState(null)
+  const [rotationPreview, setRotationPreview] = useState(null)
   const stale = useCrossTabGuard()
   const paused = stale || !boot.persistent
 
@@ -39,7 +43,7 @@ export default function App({ boot }) {
   const send = (type, payload) => dispatch({ type, payload })
   const canAdd = pages.length < MAX_PAGES
   const canDelete = pages.length > 1
-  const addPage = () => canAdd && send('page/add', { page: createPage() })
+  const addPage = () => canAdd && dispatch(addPageAction())
   const goToSpread = (spreadIndex) => send('ui/setSpread', { spreadIndex })
   const askDelete = () => {
     const index = pages.findIndex((p) => p.id === ui.activePageId)
@@ -49,6 +53,18 @@ export default function App({ boot }) {
     send('page/delete', { pageId: pendingDelete.id })
     setPendingDelete(null)
   }
+
+  const editor = createEditor(send, ui, rotationPreview, setRotationPreview)
+  const selected = ui.selectedItemId ? findItem(notebook, ui.selectedItemId) : null
+  const deleteSelected = () => selected && editor.deleteItem(selected.pageId, selected.item.id)
+  const setPanelTab = (tab) => send('ui/setPanelTab', { tab })
+  useKeyboardShortcuts({
+    enabled: !pendingDelete,
+    onDelete: deleteSelected,
+    onUndo: () => send('history/undo'),
+    onRedo: () => send('history/redo'),
+    onEscape: editor.deselect,
+  })
 
   const left = pages[ui.spreadIndex * 2]
   const right = pages[ui.spreadIndex * 2 + 1] ?? null
@@ -75,6 +91,7 @@ export default function App({ boot }) {
             onAddPage={addPage}
             onActivate={(pageId) => send('ui/setActivePage', { pageId })}
             onRename={(pageId, title) => send('page/rename', { pageId, title })}
+            editor={editor}
           />
           <PageBar
             spreadIndex={ui.spreadIndex}
@@ -86,12 +103,19 @@ export default function App({ boot }) {
             onAdd={addPage}
             onDelete={askDelete}
           />
-          <Toolbar />
+          <Toolbar
+            hasSelection={Boolean(selected)}
+            onTab={setPanelTab}
+            onAddText={() => dispatch(addTextAction(ui.activePageId))}
+            onDeleteSelected={deleteSelected}
+          />
         </main>
         <SidePanel
           panelTab={ui.panelTab}
-          hasSelection={Boolean(ui.selectedItemId)}
-          onTab={(tab) => send('ui/setPanelTab', { tab })}
+          selected={selected}
+          editor={editor}
+          onTab={setPanelTab}
+          onAddLibraryItem={(entry) => dispatch(addLibraryItemAction(ui.activePageId, entry))}
           usageRatio={usageRatio(usage)}
         />
       </div>

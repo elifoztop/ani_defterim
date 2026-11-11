@@ -11,6 +11,12 @@ const PATHS = {
   chevronLeft: 'M15 5l-7 7 7 7',
   chevronRight: 'M9 5l7 7-7 7',
   plus: 'M12 5v14 M5 12h14',
+  alignLeft: 'M4 6h16 M4 10h10 M4 14h16 M4 18h10',
+  alignCenter: 'M4 6h16 M7 10h10 M4 14h16 M7 18h10',
+  alignRight: 'M4 6h16 M10 10h10 M4 14h16 M10 18h10',
+  bringFront: 'M12 17V5 M7 10l5-5 5 5 M5 20h14',
+  sendBack: 'M12 4v12 M7 11l5 5 5-5 M5 20h14',
+  minus: 'M5 12h14',
 }
 
 export default function Icon({ name, className = 'icon' }) {

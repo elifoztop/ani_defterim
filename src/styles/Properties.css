@@ -1,0 +1,130 @@
+.props {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.props__type {
+  margin: 0;
+  color: var(--accent-gold);
+  font-family: var(--font-serif);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.props__field,
+.props__group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.props__label {
+  display: flex;
+  justify-content: space-between;
+  color: var(--accent-sage);
+  font-size: 13px;
+}
+
+.props__field input[type='range'] {
+  width: 100%;
+  accent-color: var(--accent-lavender);
+}
+
+.props__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.props__spacer {
+  flex: 1;
+}
+
+.props__segmented {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.props__option {
+  justify-content: center;
+  padding: 8px 4px;
+  font-size: 15px;
+  font-weight: 400;
+}
+
+.props .btn[aria-pressed='true'] {
+  border-color: var(--accent-lavender);
+  background: rgba(182, 160, 212, 0.2);
+}
+
+.props__style {
+  width: 38px;
+  justify-content: center;
+  font-family: var(--font-serif);
+  font-size: 16px;
+}
+
+.props__number {
+  width: 64px;
+  padding: 8px;
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  background: rgba(232, 221, 204, 0.06);
+  color: var(--accent-cream);
+  font: inherit;
+  text-align: center;
+}
+
+.props__number:focus-visible {
+  outline: 2px solid var(--accent-lavender);
+}
+
+.props__delete {
+  align-self: flex-start;
+}
+
+.library {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.library__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 8px;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  background: rgba(232, 221, 204, 0.05);
+  color: var(--accent-cream);
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.library__item:hover {
+  background: rgba(232, 221, 204, 0.12);
+}
+
+.library__item:focus-visible {
+  outline: 2px solid var(--accent-lavender);
+}
+
+.library__thumb {
+  width: 56px;
+  height: 56px;
+  border: 4px solid var(--accent-cream);
+  border-radius: 12px;
+  background: rgba(184, 154, 120, 0.45);
+}
+
+.library__item--decoration .library__thumb {
+  height: 28px;
+  border: 2px dashed var(--vintage-tan);
+  border-radius: 2px;
+  background: rgba(167, 182, 155, 0.45);
+}

@@ -77,3 +77,19 @@ Bu dosya, projenin hangi aşamasında yapay zekânın nasıl kullanıldığını
   - Elle yazılmış "Sayfa N" başlığının açılışta boşaltılması bilinçli ödünleşim olarak kabul edildi (karar 79).
   - Kullanıcı düzeltmesi: bozuk kayıt, depolama doldurma ve iki sekme senaryoları elle denenmedi. Bu senaryolar yalnızca otomatik testlerle (`storage.test.js`) doğrulandı. TEST-CHECKLIST'teki işaretler kaldırıldı.
   - Çalışma biçimi hızlandırıldı (karar 80): aşama sonunda otomatik commit ve push, 5 maddelik hızlı deneme, tek partide çizim onayı.
+
+## Aşama 3 — Editör (11 Kasım 2026)
+
+- Yapay zekânın yaptığı:
+  - Saf geometri modülünü yazdı (`lib/geometry.js`): döndürülmüş kutunun kapladığı alan, sayfa sınırına sıkıştırma, en küçük boyut, ekran-sayfa koordinat çevirisi, açı hesabı ve 15° adım, oran koruyarak ve yalnızca genişlikle boyutlandırma.
+  - Nesne eylemlerini yazdı (`itemReducer.js`): ekleme (sayfa başına 3 fotoğraf sınırı dahil), silme, dönüştürme, özellik değiştirme (boş yazı silinir), geçmişe adım açmayan `item/measure`, öne getirme, arkaya gönderme. Açılışta sayfa dışındaki nesneler sayfaya geri itiliyor.
+  - Editörü yazdı: `ItemFrame` (seçim çerçevesi, boyutlandırma ve döndürme tutamaçları, Pointer Events ve `setPointerCapture`, ara konumlar yerel durumda), `TextItem` ve `TextEditor` (çift tıklayınca düzenleme, Esc, yükseklik ölçümü), yer tutucu `StickerItem` ve `DecorationItem`, `PropertiesPanel`, `RotationSlider`, `TextProperties`, yer tutucu `StickerLibrary`, klavye kısayolları.
+  - `geometry`, `textStyle` ve `itemReducer` testlerini yazdı. `appReducer` testlerine kabul testi 8 senaryosu (5 eylem, 5 geri al, 5 yinele) ve başka açık defterdeki değişikliğin geri alınması eklendi. Toplam 103 test.
+  - Bir testin beklenen değeri yanlıştı (döndürülmüş kutunun genişliği hesaba katılmamıştı). Kod doğruydu, test düzeltildi.
+  - DECISIONS'a 81–88 arası kararları ekledi.
+- Kullanılan eklenti / komut: Claude Code (Bash, Read, Write, Edit), context7 (MDN Pointer Events ve `setPointerCapture`), `npm run build`, `npm run lint`, `npm test`.
+- Benim kontrol ettiğim ya da değiştirdiğim: (Taslak, Claude yazdı) Aşama 3'e başlamadan önce çalışma biçimini hızlandırdım: aşama sonunda otomatik commit ve push, 5 maddelik hızlı deneme, tek partide çizim onayı (karar 80). Aşama 2'de bozuk kayıt, depolama doldurma ve iki sekme testlerini yapmadığımı düzelttim. Aşama 3'ün elle denemesi bekliyor.
+- Bilinen eksikler:
+  - Çıkartma ve süsler yer tutucu kutulardır; çizimler Aşama 4'te gelecek. Fotoğraf ekleme Aşama 4'te.
+  - Sol sayfadaki bir nesnenin tutamacı cilt çizgisini geçerse sağ sayfanın altında kalabilir.
+  - Elle test yapılmadı. Claude tarayıcıyı göremez.

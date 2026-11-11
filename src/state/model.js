@@ -1,4 +1,5 @@
-import { SCHEMA_VERSION, TITLE_MAX } from './constants.js'
+import { PAGE_H, PAGE_W, SCHEMA_VERSION, TITLE_MAX } from './constants.js'
+import { clampItemToPage } from '../lib/geometry.js'
 
 const ITEM_DEFAULTS = {
   photo: { w: 240, h: 290 },
@@ -25,6 +26,21 @@ const LEGACY_DEFAULT_TITLE = /^Sayfa \d+$/
 
 export function createPage() {
   return { id: createId('pg'), title: '', items: [] }
+}
+
+export const NEW_TEXT_PROPS = {
+  content: 'Notunu yaz…',
+  font: 'hand',
+  size: 32,
+  bold: false,
+  italic: false,
+  align: 'left',
+}
+
+// Yeni nesne sayfanın ortasına konur. size verilmezse türün varsayılan boyutu kullanılır.
+export function createItem(type, props, { size, rotation = 0 } = {}) {
+  const { w, h } = size ?? ITEM_DEFAULTS[type]
+  return { id: createId('it'), type, x: PAGE_W / 2, y: PAGE_H / 2, w, h, rotation, props }
 }
 
 export function createEmptyNotebook() {
@@ -78,7 +94,7 @@ function normalizeItem(raw, usedIds, warnings) {
     return null
   }
   const size = ITEM_DEFAULTS[raw.type]
-  return {
+  return clampItemToPage({
     ...raw,
     id: freshId(raw.id, 'it', usedIds, warnings),
     x: numberOr(raw.x, 400),
@@ -87,7 +103,7 @@ function normalizeItem(raw, usedIds, warnings) {
     h: numberOr(raw.h, size.h),
     rotation: numberOr(raw.rotation, 0),
     props,
-  }
+  })
 }
 
 function normalizeTitle(title) {

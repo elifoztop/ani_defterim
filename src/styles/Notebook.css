@@ -42,7 +42,6 @@
 .page {
   --spine: linear-gradient(to left, rgba(48, 43, 39, 0.16), transparent 7%);
   position: relative;
-  overflow: hidden;
   background-color: var(--paper);
   background-image:
     var(--spine),

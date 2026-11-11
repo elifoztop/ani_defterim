@@ -175,3 +175,7 @@ Hazırlık: `npm run dev`. Tarayıcıda adresi aç. 1440 × 900 pencere kullan. 
 - [ ] Bütün akış boyunca konsolda kırmızı hata yok (bozuk kayıt ve kota testlerindeki beklenen ayrıntı mesajları hariç).
 
 Özet: Elle deneme: yapıldı (sayfa yönetimi, başlık numaraları, kalıcılık, Geri al/Yinele, kayıt durumu, panel sekmesi). Sorun: bozuk kayıt, depolama doldurma ve iki sekme senaryoları elle denenmedi.
+
+## Aşama 3 — Editör
+
+Elle deneme: bekliyor.
