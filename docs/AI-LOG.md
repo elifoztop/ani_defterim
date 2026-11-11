@@ -64,7 +64,7 @@ Bu dosya, projenin hangi aşamasında yapay zekânın nasıl kullanıldığını
   - İlk test çalıştırmasında 5 test düştü. Hatalar: history testlerindeki sahte durum notebook biçiminde değildi; `normalizeNotebook` sayfa id'sini nesnelerden sonra alıyordu, bu yüzden aynı id'yi taşıyan nesne sayfanın id'sini kapıyordu. İkisini düzeltti.
   - DECISIONS'a 62–75 arası kararları ekledi.
 - Kullanılan eklenti / komut: Claude Code (Bash, Read, Write, Edit), context7 (React `useEffectEvent` belgesi), `npm run build`, `npm run lint`, `npm test`.
-- Benim kontrol ettiğim ya da değiştirdiğim: Kayıt sistemini elle test ettim. Sayfa ekleyip silerken varsayılan başlıkların tekrar ettiğini fark ettim. Kullanıcının verdiği başlıkları koruyan bir çözüm belirleyip düzelttirdim. Bozuk kayıt, depolama dolması ve iki sekme senaryolarını tarayıcı konsoluyla denedim.
+- Benim kontrol ettiğim ya da değiştirdiğim: Kayıt sistemini elle test ettim. Sayfa ekleyip silerken varsayılan başlıkların tekrar ettiğini fark ettim. Kullanıcının verdiği başlıkları koruyan bir çözüm belirleyip düzelttirdim.
 - Bilinen eksikler:
   - Nesne konumunun sayfa sınırına sıkıştırılması Aşama 3'te `geometry.js` ile eklenecek (karar 66).
   - Klavye kısayolları (Ctrl+Z, Ctrl+Y) Aşama 3'te eklenecek. Bu aşamada Geri al ve Yinele yalnızca butonla çalışır.
@@ -75,3 +75,5 @@ Bu dosya, projenin hangi aşamasında yapay zekânın nasıl kullanıldığını
   - Kullanıcının sayfa çevirme animasyonu fikri SPEC 10'a "Zaman kalırsa, Aşama 5'ten sonra" başlığıyla eklendi. Kod yazılmadı (karar 77).
   - **Kullanıcı elle testte bir hata buldu:** sayfa ekleyip sildikçe varsayılan başlıklar bozuluyordu. Aynı defterde iki "Sayfa 2" vardı, ilk sayfanın başlığı "Sayfa 8" idi. Sebep Claude'un kendi kararıydı (karar 67): numara, eklenme anındaki sayfa sayısından veriliyor ve kayda yazılıyordu. Kullanıcının tarif ettiği çözüm uygulandı (karar 78): başlıksız sayfanın `title` alanı boş metin olarak kaydedilir, ekranda sayfanın o anki sırasıyla "Sayfa N" gösterilir, eski kayıtlardaki tam "Sayfa N" başlıkları açılışta boşaltılır. Kullanıcının istediği senaryo testleri eklendi: 8 sayfa, 2. ve 5. sayfayı sil, 2 sayfa ekle; özel başlığın korunması; eski kayıt geçişi. Toplam 63 test.
   - Elle yazılmış "Sayfa N" başlığının açılışta boşaltılması bilinçli ödünleşim olarak kabul edildi (karar 79).
+  - Kullanıcı düzeltmesi: bozuk kayıt, depolama doldurma ve iki sekme senaryoları elle denenmedi. Bu senaryolar yalnızca otomatik testlerle (`storage.test.js`) doğrulandı. TEST-CHECKLIST'teki işaretler kaldırıldı.
+  - Çalışma biçimi hızlandırıldı (karar 80): aşama sonunda otomatik commit ve push, 5 maddelik hızlı deneme, tek partide çizim onayı.

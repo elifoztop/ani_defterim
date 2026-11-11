@@ -36,15 +36,14 @@ Anı Defterim, bilgisayar tarayıcısında çalışan bir dijital scrapbook deft
 
 ## Çalışma biçimi
 
-1. Bir oturumda yalnızca bir aşamayı uygula. Aşamalar SPEC bölüm 10'dadır.
+1. Bir seferde yalnızca bir aşamayı uygula. Aşamalar SPEC bölüm 10'dadır.
 2. Bir aşamanın içinde küçük teknik kararları kendin ver. Her kararı `docs/DECISIONS.md` dosyasının sonuna tek satırla ekle.
-3. Bir aşamayı bitirince dur. Bir sonraki aşamaya kendin başlama.
-4. Aşama sonunda şu üç işi yap:
-   - `npm run build`, `npm run lint` ve `npm test` komutlarını çalıştır. Üçü de hatasız bitmeli.
-   - `docs/TEST-CHECKLIST.md` dosyasına o aşamanın elle test adımlarını yaz.
-   - `docs/AI-LOG.md` dosyasına aşamanın kaydını ekle.
-5. Ben elle test edip "devam" demeden commit önerme.
-6. TEST-CHECKLIST'te yalnızca benim açıkça bildirdiğim maddeleri işaretle. Bildirmediğim maddeyi işaretsiz bırak ve bana sor.
+3. Aşamayı bitirince `npm run build`, `npm run lint` ve `npm test` komutlarını çalıştır. Üçü de geçerse commit at ve push et. Benim onayımı bekleme.
+4. Bana en fazla 5 maddelik bir "hızlı deneme" listesi ver. Ben "tamam" ya da sorunu yazarım.
+5. `docs/TEST-CHECKLIST.md` dosyasına her aşama için tek satır yaz: "Elle deneme: yapıldı" ya da "Sorun: ...". Madde madde işaretleme yapma.
+6. `docs/AI-LOG.md` dosyasına aşamanın kaydını ekle. "Benim kontrol ettiğim" satırını sohbetimizden taslak olarak sen yaz. Ben Aşama 5'te okuyup düzeltirim.
+7. Çıkartma ve süs çizimlerini tek partide üret ve hepsini bir kerede onayıma sun.
+8. "Tamam" dediğimde bir sonraki aşamaya başlayabilirsin. Demeden başlama.
 
 Tarayıcıyı göremezsin. Bir özelliği "çalışıyor" diye raporlama. "Derleme, lint ve testler geçti, elle test bekliyor" diye raporla.
 
@@ -72,6 +71,6 @@ Tarayıcıyı göremezsin. Bir özelliği "çalışıyor" diye raporlama. "Derle
 ## Aşama N — kısa ad (tarih)
 - Yapay zekânın yaptığı: ...
 - Kullanılan eklenti / komut: ...
-- Benim kontrol ettiğim ya da değiştirdiğim: (bunu ben doldururum)
+- Benim kontrol ettiğim ya da değiştirdiğim: (Claude sohbetten taslak yazar, ben Aşama 5'te düzeltirim)
 - Bilinen eksikler: ...
 ```

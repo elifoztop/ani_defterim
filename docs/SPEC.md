@@ -319,10 +319,7 @@ Washi tape ve bant, fotoğrafın köşesine yapıştırılmış gibi görünmek 
 - Kontur ince ve hafif düzensizdir (el çizimi hissi). Dolgu düzdür. Renkler hafif soluktur. Gerçekçi gölge ve gradyan kullanma.
 - Her SVG'de `viewBox` vardır. SVG dış dosyaya, fonta ya da görsele bağlanmaz.
 - `src/data/stickers.js` her çizimin `id`, `kind` (`sticker` ya da `decoration`), `label`, `src` ve varsayılan boyutunu tutar.
-- Çizimleri 3 partide üret. Her partiden sonra dur. Ben onaylamadan sonraki partiye geçme.
-  1. Kahve, kitap, yıldız, ışıltı
-  2. Kaktüs, fiyonk, geyik, LED ışık
-  3. Pul, üç washi tape, bant
+- Çizimlerin hepsini (7 çıkartma, 6 süs) tek partide üret ve bir kerede onaya sun. Kullanıcının istediği düzeltmeler yapılır, sonra aşama devam eder (karar 80).
 
 ### 8.4 Yazı tipleri
 
@@ -378,7 +375,7 @@ Referans görselden şunları al: koyu üst çubuk düzeni, defterin ekrandaki a
 
 ## 10. Aşamalar
 
-Her aşamanın bir "Bitti" tanımı var. Bitti tanımındaki her madde sağlanmadan aşama bitmez. Aşama sonunda Claude durur.
+Her aşamanın bir "Bitti" tanımı var. Bitti tanımındaki her madde sağlanmadan aşama bitmez. Aşama sonunda Claude derleme, lint ve testleri çalıştırır, geçerse commit atıp push eder, en fazla 5 maddelik bir "hızlı deneme" listesi verir ve durur. Kullanıcı "tamam" deyince bir sonraki aşamaya geçilir (karar 80).
 
 ### Aşama 0 — Plan (yarım gün, kod yok)
 
@@ -421,7 +418,7 @@ Her aşamanın bir "Bitti" tanımı var. Bitti tanımındaki her madde sağlanma
 ### Aşama 4 — İçerik (1-2 gün)
 
 - Fotoğraf yükleme, sıkıştırma, polaroid, not, sınırlar ve hata mesajları.
-- 7 çıkartma ve 6 süs çizimi, 3 partide (bölüm 8.3).
+- 7 çıkartma ve 6 süs çizimi, tek partide (bölüm 8.3).
 
 **Bitti:** 3 fotoğraflı bir sayfa yenilemeden sonra aynen geliyor. Bütün çıkartmalar onaylandı. Depolama göstergesi fotoğraf ekleyince artıyor.
 
@@ -450,7 +447,7 @@ Bu bölümdeki işler teslim kapsamında değildir. Yalnızca Aşama 5 bitip can
 
 ## 11. Kabul testleri
 
-Ben bu testleri elle yaparım. Claude her aşamada ilgili maddeleri `docs/TEST-CHECKLIST.md` dosyasına adım adım yazar.
+Ben bu testleri elle yaparım. Claude her aşamanın sonunda en fazla 5 maddelik bir hızlı deneme listesi verir. `docs/TEST-CHECKLIST.md` dosyasına her aşama için tek satır yazılır: "Elle deneme: yapıldı" ya da "Sorun: ..." (karar 80).
 
 | # | Test | Aşama |
 |---|---|---|

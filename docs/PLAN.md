@@ -294,7 +294,7 @@ Silinecek demo dosyaları: `src/App.css`, `src/index.css`, `src/assets/hero.png`
 | `src/lib/photoRules.js`, `src/lib/imageCompress.js` | fotoğraf kontrolü ve küçültme |
 | `src/components/items/PhotoItem.jsx` | polaroid ve not |
 | `src/data/stickers.js` | 13 çizimin kaydı |
-| `src/assets/stickers/*.svg` | 3 parti, her partiden sonra onay (SPEC 8.3) |
+| `src/assets/stickers/*.svg` | tek parti, hepsi bir kerede onaya (SPEC 8.3, karar 80) |
 | `StickerItem.jsx`, `DecorationItem.jsx`, `StickerLibrary.jsx`, `Toolbar.jsx`, `PropertiesPanel.jsx` | gerçek içerik |
 | `tests/photoRules.test.js` | testler |
 

@@ -147,8 +147,8 @@ Hazırlık: `npm run dev`. Tarayıcıda adresi aç. 1440 × 900 pencere kullan. 
 
 ### Bozuk kayıt (kabul testi 5)
 
-- [x] DevTools → Application → Local Storage → `ad:notebook:v1` değerini `{bozuk` yap. Sayfayı yenile. Uygulama çökmüyor, iki boş sayfayla açılıyor. Altta "Kayıtlı defter okunamadı…" uyarısı var, "Kapat" ile kapanıyor.
-- [x] Local Storage'da `ad:notebook:corrupt` anahtarı var, değeri `{bozuk`. Konsolda ayrıntı yazıyor.
+- [ ] DevTools → Application → Local Storage → `ad:notebook:v1` değerini `{bozuk` yap. Sayfayı yenile. Uygulama çökmüyor, iki boş sayfayla açılıyor. Altta "Kayıtlı defter okunamadı…" uyarısı var, "Kapat" ile kapanıyor.
+- [ ] Local Storage'da `ad:notebook:corrupt` anahtarı var, değeri `{bozuk`. Konsolda ayrıntı yazıyor.
 - [ ] Tekrar boz ve `{"schemaVersion":2,"pages":[]}` yaz, yenile. Aynı uyarı çıkıyor. `ad:notebook:corrupt` yeni değeri tutuyor, ikinci bir yedek anahtar yok.
 - [ ] Esnek doğrulama: `ad:notebook:v1` değerini `{"schemaVersion":1,"pages":[{"title":"Eski"},{}]}` yap, yenile. Uyarı çıkmıyor. "Eski" ve "Sayfa 2" açılıyor. Konsolda yenilenen id'ler için bir uyarı satırı var.
 
@@ -156,12 +156,12 @@ Hazırlık: `npm run dev`. Tarayıcıda adresi aç. 1440 × 900 pencere kullan. 
 
 - [ ] Boş defterde panelin altında "Depolama %1'den az" görünüyor (karar 76). Bütün `ad:` anahtarları silinip sayfa yenilendiği anda, ilk kayıttan önce "%0" görünebilir.
 - [ ] Konsolda çalıştır: `localStorage.setItem('ad:test', 'x'.repeat(4200000))`. Bir sayfa başlığını değiştir. Kayıttan sonra gösterge %84 civarı ve altın renkli, altında "Depolama alanı dolmak üzere." yazıyor.
-- [x] Kota testi: konsolda `localStorage.setItem('ad:test', 'x'.repeat(5000000))` dene. Tarayıcı hata verirse sayıyı azalt (ör. 5200000 − defter uzunluğu); amaç alanı tamamen doldurmak. Sonra bir başlık değiştir. Durum "Kaydedilemedi" oluyor ve "Değişiklik kaydedilemedi, depolama alanı dolu…" uyarısı çıkıyor. Ekrandaki sayfalar silinmiyor.
+- [ ] Kota testi: konsolda `localStorage.setItem('ad:test', 'x'.repeat(5000000))` dene. Tarayıcı hata verirse sayıyı azalt (ör. 5200000 − defter uzunluğu); amaç alanı tamamen doldurmak. Sonra bir başlık değiştir. Durum "Kaydedilemedi" oluyor ve "Değişiklik kaydedilemedi, depolama alanı dolu…" uyarısı çıkıyor. Ekrandaki sayfalar silinmiyor.
 - [ ] Temizlik: `localStorage.removeItem('ad:test')`, sonra bir değişiklik yap. Durum "Kaydedildi"ye dönüyor.
 
 ### Birden çok sekme (SPEC 4.4)
 
-- [x] Uygulamayı iki sekmede aç. A sekmesinde bir başlık değiştir. B sekmesinde kapanmayan bir uyarı çıkıyor: "Defterin başka bir sekmede değişti. Kaybı önlemek için bu sekmeyi yenile." Durum "Kayıt durduruldu".
+- [ ] Uygulamayı iki sekmede aç. A sekmesinde bir başlık değiştir. B sekmesinde kapanmayan bir uyarı çıkıyor: "Defterin başka bir sekmede değişti. Kaybı önlemek için bu sekmeyi yenile." Durum "Kayıt durduruldu".
 - [ ] B sekmesinde bir değişiklik yap. Durum "Kayıt durduruldu" kalıyor. A sekmesinde uyarı çıkmıyor (B yazmadı). A'yı yenile: A'nın değişikliği duruyor.
 - [ ] B'de "Yenile"ye bas. Sayfa yenileniyor, A'daki değişiklik görünüyor, uyarı yok.
 
@@ -173,3 +173,5 @@ Hazırlık: `npm run dev`. Tarayıcıda adresi aç. 1440 × 900 pencere kullan. 
 ### Konsol
 
 - [ ] Bütün akış boyunca konsolda kırmızı hata yok (bozuk kayıt ve kota testlerindeki beklenen ayrıntı mesajları hariç).
+
+Özet: Elle deneme: yapıldı (sayfa yönetimi, başlık numaraları, kalıcılık, Geri al/Yinele, kayıt durumu, panel sekmesi). Sorun: bozuk kayıt, depolama doldurma ve iki sekme senaryoları elle denenmedi.
