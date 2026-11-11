@@ -17,3 +17,36 @@
   background: var(--accent-sage);
   box-shadow: 0 0 8px rgba(167, 182, 155, 0.6);
 }
+
+.save-status--dirty .save-status__dot,
+.save-status--saving .save-status__dot {
+  background: var(--accent-gold);
+  box-shadow: 0 0 8px rgba(198, 167, 117, 0.6);
+}
+
+.save-status--saving .save-status__dot {
+  animation: save-pulse 0.8s ease-in-out infinite alternate;
+}
+
+.save-status--failed,
+.save-status--paused {
+  color: var(--danger);
+  border-color: rgba(194, 112, 100, 0.4);
+}
+
+.save-status--failed .save-status__dot,
+.save-status--paused .save-status__dot {
+  background: var(--danger);
+  box-shadow: 0 0 8px rgba(194, 112, 100, 0.6);
+}
+
+@keyframes save-pulse {
+  from { opacity: 0.4; }
+  to { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .save-status--saving .save-status__dot {
+    animation: none;
+  }
+}

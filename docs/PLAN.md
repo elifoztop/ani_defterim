@@ -100,7 +100,7 @@ Bu eylemlerin her biri bir undo adımıdır (`item/measure` hariç). Sonucu değ
 |---|---|---|
 | `page/add` | `{ page }` | Sınır 8. Sayfa sona eklenir (karar 39). |
 | `page/delete` | `{ pageId }` | Son sayfa silinmez. |
-| `page/rename` | `{ pageId, title }` | 40 karaktere kesilir. Boşsa "Sayfa N". |
+| `page/rename` | `{ pageId, title }` | 40 karaktere kesilir. Boşsa boş metin kalır; ekranda "Sayfa {sıra}" görünür (karar 78). |
 | `item/add` | `{ pageId, item }` | Sayfa sınırına sıkıştırılır. Fotoğrafta sayfa başına 3 sınırı. |
 | `item/delete` | `{ pageId, itemId }` | |
 | `item/transform` | `{ pageId, itemId, x, y, w, h, rotation }` | Taşıma, boyutlandırma, döndürme ve kaydırıcı bitişi. Reducer boyutu ve konumu sınırlar. |
@@ -178,7 +178,7 @@ Her eylemin sonunda çalışan saf fonksiyon:
 | `schemaVersion` 1 değil ya da yok | bozuk |
 | `pages` boş dizi | bir boş sayfa eklenir |
 | 8'den fazla sayfa | silinmez, "+ Sayfa ekle" pasif kalır |
-| başlık eksik ya da metin değil | "Sayfa N" |
+| başlık eksik, metin değil ya da tam olarak "Sayfa N" | boş metin; ekranda "Sayfa {sıra}" (karar 78) |
 | `items` eksik | `[]` |
 | tanınmayan nesne türü | nesne atlanır, `warnings` listesine yazılır |
 | eksik ya da tekrar eden id | yeni id |

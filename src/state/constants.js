@@ -11,3 +11,9 @@ export const STORAGE_PREFIX = 'ad:'
 export const NOTEBOOK_KEY = 'ad:notebook:v1'
 export const CORRUPT_KEY = 'ad:notebook:corrupt'
 export const PREFS_KEY = 'ad:prefs'
+
+export const TITLE_MAX = 40
+export const AUTOSAVE_DELAY = 600
+export const STORAGE_WARN_RATIO = 0.8
+export const PHOTO_LIMIT_RATIO = 0.9
+export const LIBRARY_TABS = ['stickers', 'decorations']

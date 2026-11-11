@@ -2,7 +2,7 @@ import Icon from './Icon.jsx'
 import SaveStatus from './SaveStatus.jsx'
 import '../styles/TopBar.css'
 
-export default function TopBar() {
+export default function TopBar({ status, canUndo, canRedo, onUndo, onRedo }) {
   return (
     <header className="topbar">
       <div className="topbar__brand">
@@ -15,13 +15,13 @@ export default function TopBar() {
         </div>
       </div>
 
-      <SaveStatus label="Kaydedildi" />
+      <SaveStatus status={status} />
 
       <div className="topbar__actions">
-        <button type="button" className="btn btn--icon" aria-label="Geri al" title="Geri al" disabled>
+        <button type="button" className="btn btn--icon" aria-label="Geri al" title="Geri al" disabled={!canUndo} onClick={onUndo}>
           <Icon name="undo" />
         </button>
-        <button type="button" className="btn btn--icon" aria-label="Yinele" title="Yinele" disabled>
+        <button type="button" className="btn btn--icon" aria-label="Yinele" title="Yinele" disabled={!canRedo} onClick={onRedo}>
           <Icon name="redo" />
         </button>
       </div>

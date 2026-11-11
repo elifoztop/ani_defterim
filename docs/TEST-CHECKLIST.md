@@ -86,3 +86,90 @@ Depo: https://github.com/elifoztop/ani_defterim (public) · Canlı adres: https:
 - [x] Canlı bağlantıda fontlar yükleniyor (Network sekmesinde 404 yok).
 - [x] Canlı bağlantı gizli pencerede giriş istemeden açılıyor (Netlify projesi public).
 - [x] Canlı bağlantıda konsolda hata yok. 1024 × 768'de bütün alanlar sığıyor. 800 px'te yalnızca bilgi kartı görünüyor.
+
+## Aşama 2 — Veri ve kayıt
+
+Hazırlık: `npm run dev`. Tarayıcıda adresi aç. 1440 × 900 pencere kullan. Temiz başlangıç için DevTools → Application → Local Storage → adresini seç → `ad:` ile başlayan anahtarları sil → sayfayı yenile.
+
+### Komutlar
+
+- [ ] `npm run build` hatasız bitiyor.
+- [ ] `npm run lint` hiçbir hata ve uyarı vermiyor.
+- [ ] `npm test` 63 testi geçiriyor.
+
+### Sayfa yönetimi (kabul testi 2)
+
+- [ ] İlk açılışta "Sayfa 1" ve "Sayfa 2" var. Sayfa çubuğunda "Sayfa 1–2 / 2" yazıyor. "Önceki" ve "Sonraki" pasif.
+- [ ] Sağ sayfaya tıkla. Lavanta parıltı sağ sayfaya geçiyor (aktif sayfa).
+- [ ] "Sayfa ekle"ye bas. Defter "Sayfa 3"ün açık defterine geçiyor, geçişte kısa bir solma var. Sol sayfa "Sayfa 3", sağ yüzde "Sayfa ekle" butonlu boş yüz var. Sayaç "Sayfa 3 / 3".
+- [ ] Boş yüzdeki "Sayfa ekle" butonuna bas. "Sayfa 4" sağ sayfada açılıyor ve aktif.
+- [ ] "Önceki" ve "Sonraki" açık defterler arasında geçiyor. Geçince aktif sayfa sol sayfa oluyor.
+- [x] Toplam 8 sayfaya kadar ekle. 8. sayfadan sonra "Sayfa ekle" pasif.
+- [x] 8 sayfada "Sayfa ekle" butonunun üstüne gelince "En fazla 8 sayfa olabilir." ipucu görünüyor.
+- [ ] Bir sayfanın başlığına tıkla. Başlık yerinde düzenlenebilir hâle geliyor, metin seçili. "Tatil" yaz, Enter'a bas. Başlık değişiyor.
+- [ ] Başka bir başlığı düzenle, sonra sayfanın boş yerine tıkla. Değişiklik kaydediliyor.
+- [ ] Bir başlığı düzenlerken Esc'ye bas. Eski başlık geri geliyor.
+- [ ] Bir başlığı tamamen sil ve Enter'a bas. Başlık "Sayfa N" oluyor (N sayfanın sırası).
+- [ ] 40 karakterden uzun yazmaya çalış. 40 karakterden sonrası yazılmıyor.
+- [ ] Bir sayfayı aktif yap ve "Sayfayı sil"e bas. Onay penceresi açılıyor: "“{başlık}” sayfası ve üzerindeki her şey silinecek. Emin misin?"
+- [ ] "Vazgeç"e bas, sayfa duruyor. Tekrar aç ve Esc'ye bas, sayfa duruyor.
+- [ ] Tekrar aç ve "Sayfayı sil"e bas. Sayfa siliniyor. Aktif sayfa aynı sıradaki sayfa oluyor. Son sayfayı silersen yeni son sayfa aktif oluyor ve onun açık defterine geçiliyor.
+- [ ] Tek sayfa kalana kadar sil. "Sayfayı sil" pasif.
+
+### Başlık numaraları (karar 78, elle test düzeltmesi)
+
+- [x] Temiz başlangıçtan 8 sayfaya kadar ekle. 2. sayfayı sil, sonra 5. sırada duran sayfayı sil. 2 sayfa ekle. Bütün başlıklar "Sayfa 1"den "Sayfa 8"e sırayla görünüyor, tekrar eden numara yok.
+- [x] Bir sayfaya "Tatil" başlığı ver. Ondan önceki bir sayfayı sil. "Tatil" değişmiyor, başlıksız sayfaların numaraları yeni sıraya göre kayıyor.
+- [x] Geri al ile silinen sayfayı geri getir. Numaralar yine sırayla doğru.
+- [ ] Başlıksız bir sayfanın başlığına tıkla. Alan boş açılıyor, içinde soluk "Sayfa N" ipucu var. Hiçbir şey yazmadan Enter'a bas. Başlık değişmiyor ve Geri al geçmişine yeni adım eklenmiyor.
+- [ ] DevTools → Local Storage → `ad:notebook:v1`: başlıksız sayfaların `title` değeri `""`, "Tatil" olduğu gibi duruyor.
+- [ ] Eski kayıt geçişi: `ad:notebook:v1` değerini `{"schemaVersion":1,"pages":[{"id":"a","title":"Sayfa 8"},{"id":"b","title":"Sayfa 2"},{"id":"c","title":"Okul"},{"id":"d","title":"Sayfa 2"}]}` yap, yenile. Başlıklar "Sayfa 1", "Sayfa 2", "Okul", "Sayfa 4" görünüyor. Uyarı çıkmıyor.
+
+### Geri al / Yinele (sayfa eylemleri)
+
+- [ ] İlk açılışta Geri al ve Yinele pasif.
+- [x] Sayfa ekle, başlık değiştir, sayfa sil. Geri al'a üç kez bas: sırayla sayfa geri geliyor, başlık eski hâline dönüyor, eklenen sayfa kalkıyor. Her adımda uygulama değişen sayfanın açık defterine geçiyor.
+- [x] Yinele'ye üç kez bas: üç değişiklik yeniden uygulanıyor.
+- [ ] Geri al'dan sonra yeni bir değişiklik yap. Yinele pasif oluyor.
+- [ ] Önceki/Sonraki ile gezinmek Geri al geçmişine girmiyor.
+
+### Kayıt durumu (kabul testi 4)
+
+- [x] Bir değişiklik yap. Üst çubukta altın noktalı "Kaydedilmemiş değişiklik" görünüyor, yaklaşık yarım saniye sonra kısa bir süre "Kaydediliyor…", sonra yeşil noktalı "Kaydedildi".
+- [ ] Hızla arka arkaya birkaç sayfa ekle. Durum son değişiklikten sonra "Kaydedildi"ye dönüyor.
+
+### Yenileme (kabul testi 3, Aşama 2 bitti tanımı)
+
+- [x] Boş defterden başla. 5 sayfa ekle (toplam 7). İkisine başlık ver. Birini sil. "Kaydedildi" görününce sayfayı yenile (F5). Bütün sayfalar, başlıklar ve sıralar aynı.
+- [ ] Yenilemeden önce hangi açık defterdeysen yenileyince yine o açık defter açık.
+- [ ] Bir başlık değiştir ve hemen (yarım saniye dolmadan) F5'e bas. Değişiklik kaybolmamış (`pagehide` kaydı).
+- [ ] Yenileme sonrası Geri al pasif (geçmiş kaydedilmez).
+
+### Bozuk kayıt (kabul testi 5)
+
+- [x] DevTools → Application → Local Storage → `ad:notebook:v1` değerini `{bozuk` yap. Sayfayı yenile. Uygulama çökmüyor, iki boş sayfayla açılıyor. Altta "Kayıtlı defter okunamadı…" uyarısı var, "Kapat" ile kapanıyor.
+- [x] Local Storage'da `ad:notebook:corrupt` anahtarı var, değeri `{bozuk`. Konsolda ayrıntı yazıyor.
+- [ ] Tekrar boz ve `{"schemaVersion":2,"pages":[]}` yaz, yenile. Aynı uyarı çıkıyor. `ad:notebook:corrupt` yeni değeri tutuyor, ikinci bir yedek anahtar yok.
+- [ ] Esnek doğrulama: `ad:notebook:v1` değerini `{"schemaVersion":1,"pages":[{"title":"Eski"},{}]}` yap, yenile. Uyarı çıkmıyor. "Eski" ve "Sayfa 2" açılıyor. Konsolda yenilenen id'ler için bir uyarı satırı var.
+
+### Depolama göstergesi
+
+- [ ] Boş defterde panelin altında "Depolama %1'den az" görünüyor (karar 76). Bütün `ad:` anahtarları silinip sayfa yenilendiği anda, ilk kayıttan önce "%0" görünebilir.
+- [ ] Konsolda çalıştır: `localStorage.setItem('ad:test', 'x'.repeat(4200000))`. Bir sayfa başlığını değiştir. Kayıttan sonra gösterge %84 civarı ve altın renkli, altında "Depolama alanı dolmak üzere." yazıyor.
+- [x] Kota testi: konsolda `localStorage.setItem('ad:test', 'x'.repeat(5000000))` dene. Tarayıcı hata verirse sayıyı azalt (ör. 5200000 − defter uzunluğu); amaç alanı tamamen doldurmak. Sonra bir başlık değiştir. Durum "Kaydedilemedi" oluyor ve "Değişiklik kaydedilemedi, depolama alanı dolu…" uyarısı çıkıyor. Ekrandaki sayfalar silinmiyor.
+- [ ] Temizlik: `localStorage.removeItem('ad:test')`, sonra bir değişiklik yap. Durum "Kaydedildi"ye dönüyor.
+
+### Birden çok sekme (SPEC 4.4)
+
+- [x] Uygulamayı iki sekmede aç. A sekmesinde bir başlık değiştir. B sekmesinde kapanmayan bir uyarı çıkıyor: "Defterin başka bir sekmede değişti. Kaybı önlemek için bu sekmeyi yenile." Durum "Kayıt durduruldu".
+- [ ] B sekmesinde bir değişiklik yap. Durum "Kayıt durduruldu" kalıyor. A sekmesinde uyarı çıkmıyor (B yazmadı). A'yı yenile: A'nın değişikliği duruyor.
+- [ ] B'de "Yenile"ye bas. Sayfa yenileniyor, A'daki değişiklik görünüyor, uyarı yok.
+
+### Panel sekmeleri
+
+- [ ] "Süsler" sekmesine bas. Sekme seçili oluyor, içerikte "Süsler burada görünecek." yazıyor. Özellikler pasif.
+- [x] Sayfayı yenile. "Süsler" sekmesi açık geliyor.
+
+### Konsol
+
+- [ ] Bütün akış boyunca konsolda kırmızı hata yok (bozuk kayıt ve kota testlerindeki beklenen ayrıntı mesajları hariç).

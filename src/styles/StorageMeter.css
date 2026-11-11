@@ -26,3 +26,9 @@
 .storage-meter--warn .storage-meter__fill {
   background: var(--accent-gold);
 }
+
+.storage-meter__warning {
+  margin: 8px 0 0;
+  color: var(--accent-gold);
+  font-size: 13px;
+}

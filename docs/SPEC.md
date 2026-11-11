@@ -57,7 +57,7 @@ Notebook = {
 
 Page = {
   id: "pg_xxx",
-  title: "Sayfa 1",       // en fazla 40 karakter
+  title: "",              // kullanıcının verdiği başlık, en fazla 40 karakter. Başlık verilmemişse boş metin
   items: [Item]           // dizi sırası = katman sırası, son eleman en üstte
 }
 
@@ -80,6 +80,14 @@ Item = {
 
 Yazı nesnesinde `w` kullanıcının verdiği kutu genişliğidir. `h` yazının gerçek yüksekliğidir. Bileşen bu yüksekliği DOM'dan ölçer. Ölçülen yükseklik düzenleme bitince, bir yazı özelliği değişince ya da genişlik değişince ayrı bir `item/measure` eylemiyle reducer'a gider. Reducer yüksekliği yazar ve nesneyi sayfanın içine geri iter. `item/measure` yeni bir undo adımı açmaz (bölüm 7.4).
 
+Sayfa başlığı kuralları (karar 78):
+
+- Başlık verilmemiş sayfanın `title` alanı boş metindir (`""`). "Sayfa N" kayda yazılmaz.
+- Ekranda boş başlık yerine "Sayfa {sıra}" gösterilir. Sıra, sayfanın o anki konumudur ve 1'den başlar. Silme, ekleme ve geri almadan sonra numaralar kendiliğinden doğru olur.
+- Kullanıcının verdiği başlıklara uygulama asla dokunmaz.
+- Kullanıcı başlığı düzenlerken boş bırakırsa `title` boş metin olur.
+- Geçiş: açılışta doğrulama, tam olarak "Sayfa" + boşluk + sayı biçimindeki başlıkları (ör. "Sayfa 8") boş metne çevirir.
+
 ### 3.1 Koordinatlar
 
 - Her sayfa 800 × 1000 sayfa birimidir. Ekrandaki boyut CSS ile ölçeklenir.
@@ -92,7 +100,7 @@ Yazı nesnesinde `w` kullanıcının verdiği kutu genişliğidir. `h` yazının
 
 - Açık defterde sol sayfa `pages[2k]`, sağ sayfa `pages[2k+1]` olur.
 - Sayfa sayısı tekse son açık defterin sağ yüzü boş görünür. Boş yüzde "+ Sayfa ekle" butonu bulunur.
-- İlk açılışta defterde iki boş sayfa vardır: "Sayfa 1" ve "Sayfa 2".
+- İlk açılışta defterde iki başlıksız boş sayfa vardır. Ekranda "Sayfa 1" ve "Sayfa 2" görünür.
 
 ---
 
@@ -112,7 +120,7 @@ Yazı nesnesinde `w` kullanıcının verdiği kutu genişliğidir. `h` yazının
 - Undo geçmişi ve seçili nesne kaydedilmez.
 - Açılışta uygulama kaydı okur ve doğrular. Doğrulama esnektir:
   - Kayıt yalnızca okunamıyorsa bozuktur: JSON hatası, `pages` dizisi yok ya da `schemaVersion` tanınmıyor (1 değil ya da eksik).
-  - Eksik alanlar varsayılan değerlerle tamamlanır. Örnek: başlık yoksa "Sayfa N", `items` yoksa boş dizi, `caption` yoksa boş metin, yazı ayarı yoksa varsayılan ayar.
+  - Eksik alanlar varsayılan değerlerle tamamlanır. Örnek: başlık yoksa boş metin, `items` yoksa boş dizi, `caption` yoksa boş metin, yazı ayarı yoksa varsayılan ayar.
   - Tanınmayan türdeki bir nesne atlanır ve ayrıntı konsola yazılır. Kaydın geri kalanı açılır.
   - Eksik ya da tekrar eden id yerine yeni id üretilir. `pages` boşsa bir boş sayfa eklenir.
   - Amaç: geliştirme sırasında veri yapısı değişince eski kayıtlar silinmez ve bozuk sayılmaz.
@@ -174,7 +182,7 @@ Uygulama en az 1024 piksel genişlik için tasarlanır. Daha dar ekranda uygulam
 
 - Ekranın ana odağı açık defterdir.
 - Kağıt tonu, çok hafif noktalı grid, ortada cilt gölgesi, hafif yuvarlak köşeler.
-- Her sayfanın üstünde sayfa başlığı vardır. Kullanıcı başlığa tıklayıp yerinde düzenler. Başlık boş bırakılırsa "Sayfa N" olur.
+- Her sayfanın üstünde sayfa başlığı vardır. Kullanıcı başlığa tıklayıp yerinde düzenler. Başlık boş bırakılırsa ekranda sayfanın sırasıyla "Sayfa N" görünür (bölüm 3).
 - Sabit süsler: sol sayfanın altında "Anı Defterim", sağ sayfanın altında "Burası benim krallığım" yazar. Sağ sayfanın üst kenarında lavanta bir ayraç şeridi bulunur. Bunlar yalnızca CSS ile yapılır. Nesne değildir, seçilmez, kaydedilmez.
 - Son tıklanan sayfa **aktif sayfa** olur. Açık defter değişince aktif sayfa yeni açık defterin sol sayfası olur. Aktif sayfanın kenarında çok hafif bir lavanta parıltısı görünür. Yeni nesneler aktif sayfaya eklenir.
 - Boş sayfanın ortasında soluk, el yazısıyla bir ipucu görünür: "Panelden bir fotoğraf, çıkartma ya da not ekle →". Sayfaya ilk nesne eklenince ipucu kaybolur.
@@ -431,6 +439,12 @@ Her aşamanın bir "Bitti" tanımı var. Bitti tanımındaki her madde sağlanma
 - Son yayın.
 
 **Bitti:** Canlı bağlantıda bölüm 11'deki bütün testler geçiyor. GitHub deposu public.
+
+### Zaman kalırsa, Aşama 5'ten sonra
+
+Bu bölümdeki işler teslim kapsamında değildir. Yalnızca Aşama 5 bitip canlı bağlantıda bütün kabul testleri geçtikten sonra ele alınır. Her iş için önce kullanıcıdan onay alınır.
+
+- **Sayfa çevirme animasyonu.** Açık defterler arasındaki geçişte 300 ms solma yerine sayfa çevirme animasyonu. İlk değerlendirilecek basit hâl: sağ sayfa cilt kenarı çevresinde 3B döner ve kapanır. Saf CSS (`transform`, `perspective`) ile yapılır, paket kurulmaz. `prefers-reduced-motion` açıksa solma kalır. Kapsam dışı: dönen sayfanın arka yüzünde içerik göstermek. Karar 77.
 
 ---
 
