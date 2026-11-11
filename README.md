@@ -18,7 +18,9 @@ Bu proje bir web geliştirme eğitim programının bitirme projesidir ve "Web Ge
 - Açık defter görünümü: yan yana iki sayfa, sayfa başlıkları, önceki/sonraki gezinme.
 - Sayfa ekleme, silme (onaylı) ve yerinde başlık düzenleme. En fazla 8 sayfa.
 - Dört nesne türü: polaroid çerçeveli fotoğraf, çıkartma, süs ve yazı.
-- Nesneleri seçme, taşıma, boyutlandırma, döndürme (Shift ile 15° adım), öne getirme, arkaya gönderme ve silme. Nesneler sayfanın dışına çıkmaz.
+- Nesneleri seçme, taşıma, boyutlandırma, döndürme (Shift ile 15° adım), öne getirme, arkaya gönderme ve silme. Nesneler defterin dışına çıkmaz.
+- Nesneyi açık defterdeki karşı sayfaya sürükleyip taşıma. Bir nesne her zaman tek bir sayfaya aittir.
+- Açık defterler arasında sayfa çevirme animasyonu.
 - Yazı ayarları: el yazısı, serif ve daktilo fontu; boyut, kalın, italik, hizalama.
 - Geri al / Yinele (30 adım) ve klavye kısayolları: Delete, Ctrl+Z, Ctrl+Y, Esc.
 - Otomatik kayıt (LocalStorage), kayıt durumu ve depolama doluluk göstergesi.
