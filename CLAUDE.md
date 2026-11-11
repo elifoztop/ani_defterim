@@ -44,6 +44,7 @@ Anı Defterim, bilgisayar tarayıcısında çalışan bir dijital scrapbook deft
    - `docs/TEST-CHECKLIST.md` dosyasına o aşamanın elle test adımlarını yaz.
    - `docs/AI-LOG.md` dosyasına aşamanın kaydını ekle.
 5. Ben elle test edip "devam" demeden commit önerme.
+6. TEST-CHECKLIST'te yalnızca benim açıkça bildirdiğim maddeleri işaretle. Bildirmediğim maddeyi işaretsiz bırak ve bana sor.
 
 Tarayıcıyı göremezsin. Bir özelliği "çalışıyor" diye raporlama. "Derleme, lint ve testler geçti, elle test bekliyor" diye raporla.
 
