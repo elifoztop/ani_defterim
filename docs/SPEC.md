@@ -1,6 +1,6 @@
 # Anı Defterim — Ürün ve Teknik Tanım (SPEC)
 
-Sürüm: 3 · Planlama tarihi: 11 Kasım 2026 · Teslim süresi: 1-2 hafta
+Sürüm: 4 (Aşama 0 cevaplarıyla güncellendi) · Planlama tarihi: 11 Kasım 2026 · Teslim süresi: 1-2 hafta
 
 Slogan: "Burası benim krallığım."
 
@@ -24,7 +24,7 @@ Anı Defterim, bilgisayar tarayıcısında çalışan bir dijital scrapbook deft
 
 ### 1.2 Bu sürümde yok
 
-Sticker Studio, PNG dışa aktarma, JSON yedek, telefon ve tablet desteği, sayfa temaları ve arka planları, yazı rengi seçimi, çoklu seçim, hizalama çizgileri, ayrıntılı katman yönetimi, bulut eşitleme, kullanıcı hesabı, masa süsleri.
+Sticker Studio, PNG dışa aktarma, JSON yedek, telefon ve tablet desteği, sayfa temaları ve arka planları, yazı rengi seçimi, yazı için not kartı zemini, çoklu seçim, hizalama çizgileri, ayrıntılı katman yönetimi, bulut eşitleme, kullanıcı hesabı, "VIP" rozeti, bütün defteri silen "Sıfırla" butonu, masa süsleri.
 
 Bu özellikler için arayüzde buton gösterme.
 
@@ -78,6 +78,8 @@ Item = {
 | `decoration` | `decorationId` |
 | `text` | `content`, `font: "hand" \| "serif" \| "typewriter"`, `size` (14–72), `bold`, `italic`, `align: "left" \| "center" \| "right"` |
 
+Yazı nesnesinde `w` kullanıcının verdiği kutu genişliğidir. `h` yazının gerçek yüksekliğidir. Bileşen bu yüksekliği DOM'dan ölçer. Ölçülen yükseklik düzenleme bitince, bir yazı özelliği değişince ya da genişlik değişince ayrı bir `item/measure` eylemiyle reducer'a gider. Reducer yüksekliği yazar ve nesneyi sayfanın içine geri iter. `item/measure` yeni bir undo adımı açmaz (bölüm 7.4).
+
 ### 3.1 Koordinatlar
 
 - Her sayfa 800 × 1000 sayfa birimidir. Ekrandaki boyut CSS ile ölçeklenir.
@@ -108,16 +110,31 @@ Item = {
 - Notebook her değiştiğinde uygulama 600 ms bekler, sonra kaydeder (debounce).
 - Kayıt durumu üst çubukta görünür: `Kaydedilmemiş değişiklik` → `Kaydediliyor…` → `Kaydedildi`.
 - Undo geçmişi ve seçili nesne kaydedilmez.
-- Açılışta uygulama kaydı okur ve doğrular. Kayıt bozuksa uygulama boş defterle açılır ve bozuk veriyi `ad:notebook:corrupt` anahtarına taşır. Kullanıcı bir uyarı görür. Bozuk veri silinmez.
+- Açılışta uygulama kaydı okur ve doğrular. Doğrulama esnektir:
+  - Kayıt yalnızca okunamıyorsa bozuktur: JSON hatası, `pages` dizisi yok ya da `schemaVersion` tanınmıyor (1 değil ya da eksik).
+  - Eksik alanlar varsayılan değerlerle tamamlanır. Örnek: başlık yoksa "Sayfa N", `items` yoksa boş dizi, `caption` yoksa boş metin, yazı ayarı yoksa varsayılan ayar.
+  - Tanınmayan türdeki bir nesne atlanır ve ayrıntı konsola yazılır. Kaydın geri kalanı açılır.
+  - Eksik ya da tekrar eden id yerine yeni id üretilir. `pages` boşsa bir boş sayfa eklenir.
+  - Amaç: geliştirme sırasında veri yapısı değişince eski kayıtlar silinmez ve bozuk sayılmaz.
+- Kayıt bozuksa uygulama boş defterle açılır ve bozuk veriyi `ad:notebook:corrupt` anahtarına taşır. Kullanıcı bir uyarı görür.
+- Yalnızca tek bir `ad:notebook:corrupt` anahtarı vardır. Yeni bozuk veri eski bozuk verinin üzerine yazılır. Zaman damgalı birden çok anahtar kullanılmaz, çünkü yer kaplar. Bu anahtar doluluk hesabına dahildir.
 
 ### 4.3 Depolama sınırı
 
 LocalStorage yaklaşık 5 milyon karakter saklar. Fotoğraflar bu alanın büyük kısmını kullanır.
 
+- Kapasite sabit 5.000.000 karakter kabul edilir. Doluluk, `ad:` ile başlayan bütün anahtarların uzunluğundan (anahtar adı + değer) hesaplanır.
 - Panelin altında bir doluluk göstergesi bulunur: "Depolama: %35".
 - Doluluk %80'i geçince gösterge eskitilmiş altın rengine döner ve bir uyarı görünür.
 - Yeni fotoğraf eklemek doluluğu %90'ın üstüne çıkaracaksa uygulama fotoğrafı eklemez. Mesaj: "Depolama alanı dolmak üzere. Yeni fotoğraf eklemek için önce bir fotoğrafı sil."
 - Kayıt sırasında `QuotaExceededError` oluşursa durum `Kaydedilemedi` olur. Uygulama ekrandaki veriyi silmez. Mesaj: "Değişiklik kaydedilemedi, depolama alanı dolu. Bir fotoğrafı silip tekrar dene."
+
+### 4.4 Birden çok sekme
+
+- Uygulama `storage` olayını dinler. Bu olay yalnızca başka bir sekme LocalStorage'a yazınca gelir.
+- `ad:notebook:v1` başka bir sekmede değişirse bu sekmede otomatik kayıt durur. Bekleyen kayıt da yazılmaz. Kayıt durumu `Kayıt durduruldu` olur.
+- Ekranda kapanmayan bir uyarı görünür: "Defterin başka bir sekmede değişti. Kaybı önlemek için bu sekmeyi yenile." Uyarıda bir "Yenile" butonu vardır. Buton sayfayı yeniler.
+- İki sekmenin değişiklikleri birleştirilmez.
 
 ---
 
@@ -148,15 +165,18 @@ Uygulama en az 1024 piksel genişlik için tasarlanır. Daha dar ekranda uygulam
 
 ### 6.1 Üst çubuk
 
+- Koyu zemin.
 - Sol: "Anı Defterim" logosu, küçük bir taç ikonu, slogan "Burası benim krallığım".
-- Sağ: kayıt durumu, Geri al, Yinele.
+- Orta: kayıt durumu.
+- Sağ: Geri al, Yinele.
 
 ### 6.2 Defter
 
 - Ekranın ana odağı açık defterdir.
 - Kağıt tonu, çok hafif noktalı grid, ortada cilt gölgesi, hafif yuvarlak köşeler.
-- Her sayfanın üstünde sayfa başlığı vardır. Kullanıcı başlığa tıklayıp yerinde düzenler.
-- Son tıklanan sayfa **aktif sayfa** olur. Aktif sayfanın kenarında çok hafif bir lavanta parıltısı görünür. Yeni nesneler aktif sayfaya eklenir.
+- Her sayfanın üstünde sayfa başlığı vardır. Kullanıcı başlığa tıklayıp yerinde düzenler. Başlık boş bırakılırsa "Sayfa N" olur.
+- Sabit süsler: sol sayfanın altında "Anı Defterim", sağ sayfanın altında "Burası benim krallığım" yazar. Sağ sayfanın üst kenarında lavanta bir ayraç şeridi bulunur. Bunlar yalnızca CSS ile yapılır. Nesne değildir, seçilmez, kaydedilmez.
+- Son tıklanan sayfa **aktif sayfa** olur. Açık defter değişince aktif sayfa yeni açık defterin sol sayfası olur. Aktif sayfanın kenarında çok hafif bir lavanta parıltısı görünür. Yeni nesneler aktif sayfaya eklenir.
 - Boş sayfanın ortasında soluk, el yazısıyla bir ipucu görünür: "Panelden bir fotoğraf, çıkartma ya da not ekle →". Sayfaya ilk nesne eklenince ipucu kaybolur.
 
 ### 6.3 Sayfa çubuğu (defterin altında)
@@ -170,7 +190,7 @@ Uygulama en az 1024 piksel genişlik için tasarlanır. Daha dar ekranda uygulam
 
 ### 6.4 Alt araç çubuğu
 
-Yüzen, yuvarlak köşeli bir cam çubuk:
+Yüzen, yuvarlak köşeli bir cam çubuk. Sayfa çubuğunun altında, ortada durur. Defterin üstüne binmez. Silme butonları `--danger` rengini kullanır.
 
 | Buton | Eylem |
 |---|---|
@@ -182,16 +202,22 @@ Yüzen, yuvarlak köşeli bir cam çubuk:
 
 ### 6.5 Sağ panel
 
-Koyu cam görünümlü dikey panel. İki sekme: **Çıkartmalar** ve **Süsler**.
+Koyu cam görünümlü dikey panel. Üç sekme: **Çıkartmalar**, **Süsler** ve **Özellikler**.
 
 - Kullanıcı bir çıkartmaya ya da süse tıklar. Uygulama onu aktif sayfanın ortasına, −4° ile +4° arası rastgele bir açıyla ekler ve seçer.
-- Bir nesne seçilince panel **Özellikler** görünümüne geçer. Üstte "← Kütüphaneye dön" bağlantısı bulunur.
+- Açık sekme ayrı bir durumdur: `panelTab` (`stickers`, `decorations` ya da `properties`). Son kütüphane sekmesi de ayrı tutulur: `lastLibraryTab`.
+- Seçili nesne yokken Özellikler sekmesi pasiftir.
+- Bir nesne seçilince `panelTab` `properties` olur.
+- Seçim kalkınca `panelTab` `lastLibraryTab` değerine döner.
+- Kullanıcı bir kütüphane sekmesine ya da araç çubuğundaki Çıkartma/Süs butonuna basarsa o sekme açılır. Seçim durur. `lastLibraryTab` güncellenir. Nesne seçiliyken de kütüphane sekmeleri tıklanabilir.
+- Seçim dururken kullanıcı Özellikler sekmesine basarak geri döner.
+- `ad:prefs` içindeki `panelTab` alanı `lastLibraryTab` değerini (`stickers` ya da `decorations`) tutar. Seçim kaydedilmediği için `properties` kaydedilmez.
 
-Özellikler görünümü:
+Özellikler sekmesi:
 
 | Nesne | Ayarlar |
 |---|---|
-| Hepsi | Öne getir, Sil |
+| Hepsi | Nesne türü etiketi, Döndürme kaydırıcısı (−180° ile +180°), Öne getir, Arkaya gönder, Sil |
 | Fotoğraf | Not (en fazla 40 karakter) |
 | Yazı | Yazı tipi (El yazısı / Serif / Daktilo), Boyut (14–72), Kalın, İtalik, Hizalama (sol / orta / sağ) |
 
@@ -206,6 +232,8 @@ Koyu cam görünümlü dikey panel. İki sekme: **Çıkartmalar** ve **Süsler**
 - Fotoğraf, çıkartma ve süs boyutlanırken oranlarını korur.
 - Yazı nesnesinde tutamaç kutunun genişliğini değiştirir. Yazı yeni genişliğe göre satır kırar.
 - Döndürme `Shift` basılıyken 15° adımlarla yapılır.
+- Özellikler sekmesindeki döndürme kaydırıcısı tutamaçlara ek bir yoldur. Tutamaçlar kalır. Kaydırıcı sürüklenirken ara açılar bileşenin yerel durumunda tutulur. Kaydırıcı bırakılınca reducer'a tek eylem gider.
+- "Öne getir" nesneyi `items` dizisinin sonuna, "Arkaya gönder" dizinin başına taşır.
 - Bütün etkileşimleri Pointer Events ile yaz. `setPointerCapture` kullan.
 
 ### 7.2 Yazı düzenleme
@@ -229,9 +257,13 @@ Kullanıcı bir yazı alanına yazarken bu kısayollar çalışmaz.
 ### 7.4 Undo / Redo
 
 - Reducer durumu `{ past, present, future }` biçimindedir.
-- Her tamamlanmış eylem bir adımdır: nesne ekleme, silme, taşıma bitişi, boyutlandırma bitişi, döndürme bitişi, öne getirme, özellik değişikliği, sayfa ekleme, sayfa silme, başlık değişikliği.
+- Her tamamlanmış eylem bir adımdır: nesne ekleme, silme, taşıma bitişi, boyutlandırma bitişi, döndürme bitişi (tutamaç ya da kaydırıcı), öne getirme, arkaya gönderme, özellik değişikliği, sayfa ekleme, sayfa silme, başlık değişikliği.
+- Yazı yüksekliğini bildiren `item/measure` eylemi yeni adım açmaz. Yalnızca `present` durumunu günceller. `past` ve `future` değişmez. Böylece kullanıcının tek değişikliği tek undo adımı olur. Undo sonrası gelen bir ölçüm Yinele geçmişini silmez.
 - En fazla 30 adım. Geçmiş sayfa yenilenince sıfırlanır.
 - Hangi açık defterin görüntülendiği ve hangi nesnenin seçili olduğu geçmişe girmez.
+- Notebook her değiştiğinde (undo ve redo dahil) uygulama `selectedItemId`, `editingItemId`, `activePageId` ve `lastChangedPageId` referanslarını kontrol eder. Var olmayan bir sayfayı ya da nesneyi gösteren referans temizlenir.
+- Aktif sayfa silinirse aktif sayfa aynı sıradaki sayfa olur. O sıra artık yoksa son sayfa olur. Uygulama bu sayfanın açık defterine geçer.
+- Açılışta `ad:prefs` içindeki `spreadIndex` sayfa sayısına göre sınırlanır.
 - Undo ile değişen nesne başka bir sayfadaysa uygulama o sayfanın açık defterine geçer.
 - Geri al ve Yinele butonları kullanılamadıkları zaman pasif görünür.
 
@@ -287,7 +319,10 @@ Washi tape ve bant, fotoğrafın köşesine yapıştırılmış gibi görünmek 
 ### 8.4 Yazı tipleri
 
 - Üç font: bir el yazısı, bir serif, bir daktilo fontu.
-- Fontlar açık lisanslı (OFL) ve `src/assets/fonts/` altında yerel `woff2` dosyası olmalı.
+- Fontlar açık lisanslı (OFL) ve `src/assets/fonts/` altında yerel `ttf` dosyası olmalı. Kaynak google/fonts deposudur. Bu depoda `woff2` yok, `ttf` var. Dönüştürme için araç ya da paket kurulmaz.
+  - El yazısı: Caveat (değişken font). İtalik dosyası yoktur. `italic` değeri kayıtta korunur, ama yazı tipi El yazısı iken uygulanmaz. Bu durumda İtalik butonu pasiftir. Kullanıcı başka bir fonta geçince italik yeniden uygulanır. Tarayıcının yapay eğiklik üretmemesi için bu fontta `font-synthesis: style none` kullanılır.
+  - Serif: Lora (değişken font + italik dosyası).
+  - Daktilo: Courier Prime (normal, kalın, italik, kalın italik).
 - Fontlar Türkçe karakterleri göstermeli. Test cümlesi: `Ilık şömine, güzel çay, İstanbul, ĞÜŞİÖÇ`. Bir karakter yedek fonta düşüyorsa o fontu değiştir.
 - Font lisanslarını README'ye yaz.
 
@@ -302,6 +337,9 @@ Washi tape ve bant, fotoğrafın köşesine yapıştırılmış gibi görünmek 
 --accent-lavender: #B6A0D4;  --accent-sage: #A7B69B;
 --accent-cream: #E8DDCC;     --accent-gold: #C6A775;
 --paper: #E9E1D5;        --paper-shade: #DCD0C0; --ink: #302B27;
+
+/* Yalnızca silme butonları için. --bg-deep üzerinde kontrast yaklaşık 5.1:1 */
+--danger: #C27064;
 
 /* Yalnızca çıkartma ve süs çizimleri için eskitilmiş kahverengi tonlar */
 --vintage-umber: #6B4F3A;    --vintage-sepia: #8C6E52;   --vintage-tan: #B89A78;
@@ -322,9 +360,11 @@ Bütün yazı nesneleri `--ink` rengindedir.
 
 ### 9.3 Referans görsel
 
-Referans görselden şunları al: defterin ekrandaki ağırlığı, sağda dikey cam panel, altta yüzen araç çubuğu, polaroid ile washi tape ilişkisi, çıkartmaların krem kesim kenarı.
+Referans görsel bir yapay zekâ aracıyla üretildi.
 
-Şunları alma: görseldeki fotoğraflar, kedi, kale çizimi, masa nesneleri.
+Referans görselden şunları al: koyu üst çubuk düzeni, defterin ekrandaki ağırlığı, sağda üç sekmeli dikey cam panel, defterin altında sayfa çubuğu ve onun altında yüzen araç çubuğu, polaroid ile washi tape ilişkisi, kesik çizgili lavanta seçim çerçevesi, sayfa altı yazıları ve ayraç şeridi.
+
+Şunları alma: görseldeki fotoğraflar ve çizimler, "VIP" rozeti, "Sıfırla" butonu, yazının not kartı zemini, sayfadaki kalp ikonu.
 
 ---
 
@@ -354,7 +394,9 @@ Her aşamanın bir "Bitti" tanımı var. Bitti tanımındaki her madde sağlanma
 
 - `model.js`, `notebookReducer.js`, `history.js`, `storage.js`.
 - Sayfa ekleme, silme, başlık, önceki/sonraki.
-- Otomatik kayıt, kayıt durumu, doluluk göstergesi, bozuk kayıt koruması.
+- Otomatik kayıt, kayıt durumu, doluluk göstergesi, bozuk kayıt koruması, esnek doğrulama.
+- Birden çok sekme uyarısı (bölüm 4.4).
+- Geçersiz referans temizliği (bölüm 7.4).
 - Geri al / Yinele (sayfa eylemleri için).
 
 **Bitti:** 5 sayfa ekle, başlık ver, birini sil, sayfayı yenile. Bütün sayfalar ve başlıklar geri geliyor. Reducer ve storage testleri geçiyor.
@@ -423,14 +465,16 @@ Bir test geçmezse o özelliği "tamamlandı" olarak işaretleme.
 - Tarayıcı verisini silmek defteri siler.
 - Fotoğraflar yer kazanmak için küçültülür. Baskı kalitesinde değildir.
 - Uygulama yalnızca bilgisayar ekranı için tasarlandı.
+- Defter aynı anda yalnızca bir sekmede düzenlenmeli. Defter başka bir sekmede değişirse uygulama bu sekmede kaydı durdurur ve yenilemeyi ister. İki sekmenin değişiklikleri birleştirilmez.
 
 ---
 
 ## 13. Dosya yapısı
 
 ```
-ani-defterim/
+claude-project/           (klasör adı değişmez, package.json adı: ani-defterim)
 ├── index.html
+├── netlify.toml
 ├── package.json
 ├── vite.config.js
 ├── CLAUDE.md
