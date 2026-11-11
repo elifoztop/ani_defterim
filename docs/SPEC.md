@@ -441,7 +441,7 @@ Her aşamanın bir "Bitti" tanımı var. Bitti tanımındaki her madde sağlanma
 
 Bu bölümdeki işler teslim kapsamında değildir. Yalnızca Aşama 5 bitip canlı bağlantıda bütün kabul testleri geçtikten sonra ele alınır. Her iş için önce kullanıcıdan onay alınır.
 
-- **Sayfa çevirme animasyonu.** Açık defterler arasındaki geçişte 300 ms solma yerine sayfa çevirme animasyonu. İlk değerlendirilecek basit hâl: sağ sayfa cilt kenarı çevresinde 3B döner ve kapanır. Saf CSS (`transform`, `perspective`) ile yapılır, paket kurulmaz. `prefers-reduced-motion` açıksa solma kalır. Kapsam dışı: dönen sayfanın arka yüzünde içerik göstermek. Karar 77.
+- **Sayfa çevirme animasyonu.** Açık defterler arasındaki geçişte 300 ms solma yerine sayfa çevirme animasyonu. İlk değerlendirilecek basit hâl: sağ sayfa cilt kenarı çevresinde 3B döner ve kapanır. Saf CSS (`transform`, `perspective`) ile yapılır, paket kurulmaz. `prefers-reduced-motion` açıksa solma kalır. Kapsam dışı: dönen sayfanın arka yüzünde içerik göstermek. Karar 77. **Durum:** kullanıcının onayıyla eklendi (karar 99).
 
 ---
 

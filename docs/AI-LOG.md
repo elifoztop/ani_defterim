@@ -123,3 +123,10 @@ Bu dosya, projenin hangi aşamasında yapay zekânın nasıl kullanıldığını
 - Bilinen eksikler:
   - Canlı bağlantıda hızlı deneme yapıldı; bozuk kayıt, depolama doldurma ve iki sekme senaryoları da bu turda denendi.
   - Sayfa çevirme animasyonu "zaman kalırsa" listesinde (karar 77).
+
+## Ek — Sayfa çevirme animasyonu (11 Kasım 2026)
+
+- Yapay zekânın yaptığı: Kullanıcının "kontrollü şekilde ekle" isteğiyle SPEC'teki "zaman kalırsa" maddesini uyguladı. `PageLeaf.jsx` bileşenini ve CSS animasyonunu yazdı: ileri giderken sağ, geri giderken sol yaprak cilt çevresinde döner. Veri, kayıt ve reducer'a dokunmadı. Animasyon kapalı ayarında yaprak gösterilmiyor (karar 99).
+- Kullanılan eklenti / komut: Claude Code (Write, Bash), `npm run build`, `npm run lint`, `npm test`.
+- Benim kontrol ettiğim ya da değiştirdiğim: (Taslak, Claude yazdı) Animasyonu istedim ve kapsamını "kontrollü" diye sınırladım. Elle denemesi bekliyor.
+- Bilinen eksikler: Animasyon otomatik test edilmedi; Claude tarayıcıda animasyonu göremez.

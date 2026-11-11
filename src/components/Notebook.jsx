@@ -1,5 +1,6 @@
 import Page from './Page.jsx'
 import EmptyFace from './EmptyFace.jsx'
+import PageLeaf from './PageLeaf.jsx'
 import '../styles/Notebook.css'
 
 export default function Notebook({ leftPage, leftIndex, rightPage, activePageId, canAdd, onAddPage, onActivate, onRename, editor }) {
@@ -13,6 +14,7 @@ export default function Notebook({ leftPage, leftIndex, rightPage, activePageId,
         ) : (
           <EmptyFace key={`empty-${leftPage.id}`} canAdd={canAdd} onAdd={onAddPage} />
         )}
+        <PageLeaf spreadIndex={leftIndex / 2} />
         <span className="notebook__ribbon" aria-hidden="true" />
         <span className="notebook__footer notebook__footer--left font-hand" aria-hidden="true">
           Anı Defterim

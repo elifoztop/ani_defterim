@@ -187,3 +187,7 @@ Elle deneme: yapıldı. Çizimler onaylandı.
 ## Aşama 5 — Temizlik ve teslim
 
 Elle deneme: yapıldı (canlı bağlantıda hızlı deneme; Aşama 2'de denenmeyen bozuk kayıt, depolama doldurma ve iki sekme senaryoları dahil).
+
+## Ek — Sayfa çevirme animasyonu (karar 99)
+
+Elle deneme: bekliyor.
