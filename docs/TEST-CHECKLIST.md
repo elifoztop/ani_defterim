@@ -194,4 +194,4 @@ Elle deneme: yapıldı.
 
 ## Ek — Nesneyi karşı sayfaya taşıma (karar 100)
 
-Elle deneme: bekliyor.
+Elle deneme: yapıldı.

@@ -136,4 +136,4 @@ Bu dosya, projenin hangi aşamasında yapay zekânın nasıl kullanıldığını
 - Yapay zekânın yaptığı: İsteği önce yanlış anladı (nesnenin karşı sayfaya yalnızca görünüş olarak taşması) ve bunu yazılı olarak sundu. Kullanıcının düzeltmesiyle nesnenin karşı sayfaya geçmesini uyguladı: `geometry.js`'e `dragBoundsX` ve `dropTarget`, `itemReducer`'a sayfalar arası geçiş, `uiReducer`'a aktif sayfanın nesneyi izlemesi, `ItemFrame`'e bırakma kararı eklendi. Hedefte 3 fotoğraf varken reducer'ın koordinatı yanlış sayfaya göre yorumlayacağını fark edip düzeltti. 9 test ekledi (toplam 121). SPEC 3.1 ve karar 12'yi güncelledi, karar 100'ü yazdı.
 - Kullanılan eklenti / komut: Claude Code (Bash, Read, Write, Edit), `npm run build`, `npm run lint`, `npm test`.
 - Benim kontrol ettiğim ya da değiştirdiğim: (Taslak, Claude yazdı) Claude'un ilk anlayışını düzelttim: nesne karşı sayfaya taşmasın, geçsin. Bir nesnenin iki sayfanın birden elemanı sayılmaması şartını koydum. Önerilen kuralları onayladım. Sayfa çevirme animasyonunu denedim, çalışıyor.
-- Bilinen eksikler: Elle deneme bekliyor. Claude tarayıcıyı göremez.
+- Bilinen eksikler: Yok. Kullanıcı beş hızlı deneme maddesini yaptı.
