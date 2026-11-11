@@ -10,7 +10,7 @@ import { createEmptyNotebook, normalizeNotebook } from './model.js'
 
 // Bütün fonksiyonlar depoyu parametre olarak alır (localStorage ya da testteki sahte depo).
 
-export function isQuotaError(error) {
+function isQuotaError(error) {
   return (
     error?.name === 'QuotaExceededError' ||
     error?.name === 'NS_ERROR_DOM_QUOTA_REACHED' ||

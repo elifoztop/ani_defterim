@@ -3,13 +3,13 @@ import RotationSlider from './RotationSlider.jsx'
 import TextProperties from './TextProperties.jsx'
 import CaptionField from './CaptionField.jsx'
 import { findLibraryEntry } from '../../data/stickers.js'
+import { ITEM_TYPE_LABELS } from '../../lib/messages.js'
 import '../../styles/Properties.css'
-
-const TYPE_LABELS = { photo: 'Fotoğraf', sticker: 'Çıkartma', decoration: 'Süs', text: 'Yazı' }
 
 function typeLabel(item) {
   const entry = findLibraryEntry(item.props.stickerId ?? item.props.decorationId)
-  return entry ? `${TYPE_LABELS[item.type]} · ${entry.label}` : TYPE_LABELS[item.type]
+  const label = ITEM_TYPE_LABELS[item.type]
+  return entry ? `${label} · ${entry.label}` : label
 }
 
 export default function PropertiesPanel({ item, pageId, editor }) {

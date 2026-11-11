@@ -1,7 +1,7 @@
 import { HISTORY_LIMIT } from './constants.js'
 
 // Bu eylemler yeni geçmiş adımı açmaz: yalnızca present değişir (karar 45).
-export const MERGE_ACTIONS = new Set(['item/measure'])
+const MERGE_ACTIONS = new Set(['item/measure'])
 
 export function createHistory(present) {
   return { past: [], present, future: [], lastChangedPageId: null }

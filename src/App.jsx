@@ -46,6 +46,8 @@ export default function App({ boot }) {
   const canAdd = pages.length < MAX_PAGES
   const canDelete = pages.length > 1
   const addPage = () => canAdd && dispatch(addPageAction())
+  const undo = () => send('history/undo')
+  const redo = () => send('history/redo')
   const goToSpread = (spreadIndex) => send('ui/setSpread', { spreadIndex })
   const askDelete = () => {
     const index = pages.findIndex((p) => p.id === ui.activePageId)
@@ -69,8 +71,8 @@ export default function App({ boot }) {
   useKeyboardShortcuts({
     enabled: !pendingDelete,
     onDelete: deleteSelected,
-    onUndo: () => send('history/undo'),
-    onRedo: () => send('history/redo'),
+    onUndo: undo,
+    onRedo: redo,
     onEscape: editor.deselect,
   })
 
@@ -85,8 +87,8 @@ export default function App({ boot }) {
           status={status}
           canUndo={canUndo(state.history)}
           canRedo={canRedo(state.history)}
-          onUndo={() => send('history/undo')}
-          onRedo={() => send('history/redo')}
+          onUndo={undo}
+          onRedo={redo}
         />
         <main className="workspace">
           {stale && <StaleTabNotice />}

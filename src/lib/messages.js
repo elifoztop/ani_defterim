@@ -15,5 +15,7 @@ export const MESSAGES = {
   lastPage: 'Defterde en az bir sayfa olmalı.',
 }
 
+export const ITEM_TYPE_LABELS = { photo: 'Fotoğraf', sticker: 'Çıkartma', decoration: 'Süs', text: 'Yazı' }
+
 export const deletePageQuestion = (title) =>
   `“${title}” sayfası ve üzerindeki her şey silinecek. Emin misin?`

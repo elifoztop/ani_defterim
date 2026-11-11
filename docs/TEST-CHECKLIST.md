@@ -182,4 +182,8 @@ Elle deneme: yapıldı.
 
 ## Aşama 4 — İçerik
 
-Elle deneme: bekliyor. Çizim onayı bekliyor.
+Elle deneme: yapıldı. Çizimler onaylandı.
+
+## Aşama 5 — Temizlik ve teslim
+
+Elle deneme: bekliyor (canlı bağlantıda SPEC 11 kabul testleri 1–14). Aşama 2'de denenmeyen bozuk kayıt, depolama doldurma ve iki sekme senaryoları da bu turda denenmeli.

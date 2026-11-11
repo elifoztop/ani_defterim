@@ -1,5 +1,6 @@
 import { PAGE_H, PAGE_W, SCHEMA_VERSION, TITLE_MAX } from './constants.js'
 import { clampItemToPage } from '../lib/geometry.js'
+import { clampTextSize } from '../lib/textStyle.js'
 
 const ITEM_DEFAULTS = {
   photo: { w: 240, h: 290 },
@@ -10,7 +11,7 @@ const ITEM_DEFAULTS = {
 const FONTS = ['hand', 'serif', 'typewriter']
 const ALIGNS = ['left', 'center', 'right']
 
-export function createId(prefix) {
+function createId(prefix) {
   const time = Date.now().toString(36)
   const random = Math.random().toString(36).slice(2, 8)
   return `${prefix}_${time}${random}`
@@ -76,7 +77,7 @@ function normalizeProps(type, props) {
   return {
     ...p,
     font: oneOf(p.font, FONTS),
-    size: Math.min(72, Math.max(14, Math.round(numberOr(p.size, 24)))),
+    size: clampTextSize(numberOr(p.size, 24)),
     bold: p.bold === true,
     italic: p.italic === true,
     align: oneOf(p.align, ALIGNS),
@@ -97,8 +98,8 @@ function normalizeItem(raw, usedIds, warnings) {
   return clampItemToPage({
     ...raw,
     id: freshId(raw.id, 'it', usedIds, warnings),
-    x: numberOr(raw.x, 400),
-    y: numberOr(raw.y, 500),
+    x: numberOr(raw.x, PAGE_W / 2),
+    y: numberOr(raw.y, PAGE_H / 2),
     w: numberOr(raw.w, size.w),
     h: numberOr(raw.h, size.h),
     rotation: numberOr(raw.rotation, 0),

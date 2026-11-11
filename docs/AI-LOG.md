@@ -109,3 +109,17 @@ Bu dosya, projenin hangi aşamasında yapay zekânın nasıl kullanıldığını
   - Çizimler kullanıcı onayı bekliyor.
   - Fotoğraf sıkıştırma tarayıcıya bağlı olduğu için otomatik test edilmedi; yalnızca kurallar test edildi.
   - Elle test yapılmadı. Claude tarayıcıyı göremez.
+
+## Aşama 5 — Temizlik ve teslim (11 Kasım 2026)
+
+- Yapay zekânın yaptığı:
+  - Sadeleştirmeyi code-simplifier ajanına verdi. Ajan 11 dosyada küçük değişiklikler yaptı (karar 96). Claude değişiklikleri diff üzerinden kontrol etti; lint, 112 test ve derleme tekrar geçti.
+  - `console.log`, yorum satırına alınmış kod ve kullanılmayan dışa aktarımları taradı. Konsolda yalnızca hata ayrıntısı yazan `console.error` ve `console.warn` satırları kaldı.
+  - README'yi yazdı: açıklama, ekran görüntüsü, özellikler, kurulum, komutlar, teknolojiler, font lisansları, aşama aşama yapay zekâ kullanımı, bilinen sınırlar, canlı bağlantı.
+  - Ekran görüntüsünü üretim derlemesinden başsız Edge ile aldı (karar 97). Görüntüde paneldeki çizim önizlemelerinin kesim kenarının fazla kalın olduğunu fark edip düzeltti (karar 98).
+  - Son sürümü GitHub'a gönderdi; Netlify `main` dalından yeniden yayınlar.
+- Kullanılan eklenti / komut: Claude Code (Bash, Read, Write, Edit, PowerShell), code-simplifier eklentisi, Microsoft Edge başsız mod, `vite preview`, `npm run build`, `npm run lint`, `npm test`.
+- Benim kontrol ettiğim ya da değiştirdiğim: (Taslak, Claude yazdı) Aşama 4'ün hızlı denemesini yapıp çizimleri onayladım. Canlı bağlantıda kabul testleri ve bu AI-LOG'un "Benim kontrol ettiğim" satırlarının düzeltilmesi bekliyor.
+- Bilinen eksikler:
+  - SPEC 11 kabul testleri canlı bağlantıda henüz yapılmadı. Aşama 2'deki bozuk kayıt, depolama doldurma ve iki sekme senaryoları elle denenmedi.
+  - Sayfa çevirme animasyonu "zaman kalırsa" listesinde (karar 77).

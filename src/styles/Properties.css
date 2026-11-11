@@ -133,3 +133,8 @@
 .props__text:focus-visible {
   outline: 2px solid var(--accent-lavender);
 }
+
+/* Küçük önizlemede kesim kenarı ince olmalı; yoksa ince çizimler kenarın içinde kaybolur. */
+.library__thumb.art--cut {
+  --cut: 1px;
+}

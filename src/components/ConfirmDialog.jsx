@@ -10,10 +10,8 @@ export default function ConfirmDialog({ message, confirmLabel, onConfirm, onCanc
     if (dialog && !dialog.open) dialog.showModal()
   }, [])
 
-  const onClose = () => onCancel()
-
   return (
-    <dialog ref={ref} className="confirm-dialog glass" aria-labelledby="confirm-dialog-text" onClose={onClose}>
+    <dialog ref={ref} className="confirm-dialog glass" aria-labelledby="confirm-dialog-text" onClose={onCancel}>
       <p id="confirm-dialog-text">{message}</p>
       <div className="confirm-dialog__actions">
         <button type="button" className="btn" autoFocus onClick={onCancel}>

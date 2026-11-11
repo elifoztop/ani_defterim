@@ -1,9 +1,10 @@
+import { PREFS_KEY } from '../state/constants.js'
 import { createMemoryStorage, loadNotebook, loadPrefs } from '../state/storage.js'
 
 function getLocalStorage() {
   try {
     const storage = window.localStorage
-    storage.getItem('ad:prefs')
+    storage.getItem(PREFS_KEY)
     return storage
   } catch (error) {
     console.error('LocalStorage kullanılamıyor:', error)

@@ -3,10 +3,10 @@ import TextItem from './TextItem.jsx'
 import StickerItem from './StickerItem.jsx'
 import DecorationItem from './DecorationItem.jsx'
 import PhotoItem from './PhotoItem.jsx'
+import { ITEM_TYPE_LABELS } from '../../lib/messages.js'
 import '../../styles/Items.css'
 
 const unit = (value) => `calc(var(--u) * ${value})`
-const TYPE_LABELS = { photo: 'Fotoğraf', sticker: 'Çıkartma', decoration: 'Süs', text: 'Yazı' }
 
 function ItemContent({ item, pageId, editing, editor }) {
   if (item.type === 'text') {
@@ -45,15 +45,20 @@ export default function ItemFrame({ item, pageId, editor }) {
     height: isText ? 'auto' : unit(shown.h),
     transform: `rotate(${rotation}deg)`,
   }
-  const className = `item-frame item-frame--${item.type}${selected ? ' item-frame--selected' : ''}${
-    editing ? ' item-frame--editing' : ''
-  }`
+  const className = [
+    'item-frame',
+    `item-frame--${item.type}`,
+    selected && 'item-frame--selected',
+    editing && 'item-frame--editing',
+  ]
+    .filter(Boolean)
+    .join(' ')
 
   return (
     <div
       className={className}
       style={style}
-      aria-label={TYPE_LABELS[item.type]}
+      aria-label={ITEM_TYPE_LABELS[item.type]}
       onDoubleClick={isText ? () => editor.startEdit(item.id) : undefined}
       {...handlers}
     >

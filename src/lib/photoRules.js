@@ -2,10 +2,10 @@ import { MAX_PHOTOS_PER_PAGE } from '../state/constants.js'
 
 // Fotoğraf kuralları (SPEC 5). Saf JS; tarayıcı olmadan test edilir.
 
-export const PHOTO_TYPES = ['image/png', 'image/jpeg', 'image/webp']
+const PHOTO_TYPES = ['image/png', 'image/jpeg', 'image/webp']
 export const PHOTO_ACCEPT = PHOTO_TYPES.join(',')
 export const MAX_PHOTO_BYTES = 15 * 1024 * 1024
-export const PHOTO_LONG_EDGE = 600
+const PHOTO_LONG_EDGE = 600
 export const PHOTO_QUALITY = 0.75
 export const PHOTO_RETRY_QUALITY = 0.6
 export const PHOTO_MAX_OUTPUT_BYTES = 80 * 1024
@@ -17,7 +17,7 @@ export function checkPhotoFile({ type, size }) {
   return null
 }
 
-export const countPhotos = (page) => page.items.filter((item) => item.type === 'photo').length
+const countPhotos = (page) => page.items.filter((item) => item.type === 'photo').length
 export const canAddPhoto = (page) => Boolean(page) && countPhotos(page) < MAX_PHOTOS_PER_PAGE
 
 // Küçültülmüş boyut: uzun kenar en fazla 600 piksel, küçük görsel büyütülmez.
@@ -33,7 +33,7 @@ export function dataUrlBytes(dataUrl) {
 }
 
 // Polaroid çerçeve: yanlarda ve üstte genişliğin %6'sı, altta %22'si (SPEC 5).
-export const POLAROID = { side: 0.06, top: 0.06, bottom: 0.22 }
+const POLAROID = { side: 0.06, top: 0.06, bottom: 0.22 }
 
 export function polaroidSize(width, height) {
   const w = width >= height ? 280 : 220

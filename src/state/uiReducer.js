@@ -9,7 +9,7 @@ const clampSpread = (index, notebook) =>
 const pageIndex = (notebook, pageId) => notebook.pages.findIndex((p) => p.id === pageId)
 const spreadOfPage = (notebook, pageId) => Math.floor(pageIndex(notebook, pageId) / 2)
 
-export function findItemPageId(notebook, itemId) {
+function findItemPageId(notebook, itemId) {
   const page = notebook.pages.find((p) => p.items.some((item) => item.id === itemId))
   return page ? page.id : null
 }
