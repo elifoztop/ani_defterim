@@ -178,4 +178,8 @@ Hazırlık: `npm run dev`. Tarayıcıda adresi aç. 1440 × 900 pencere kullan. 
 
 ## Aşama 3 — Editör
 
-Elle deneme: bekliyor.
+Elle deneme: yapıldı.
+
+## Aşama 4 — İçerik
+
+Elle deneme: bekliyor. Çizim onayı bekliyor.

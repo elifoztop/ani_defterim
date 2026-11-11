@@ -1,6 +1,7 @@
 import Icon from '../Icon.jsx'
 import RotationSlider from './RotationSlider.jsx'
 import TextProperties from './TextProperties.jsx'
+import CaptionField from './CaptionField.jsx'
 import { findLibraryEntry } from '../../data/stickers.js'
 import '../../styles/Properties.css'
 
@@ -24,6 +25,14 @@ export default function PropertiesPanel({ item, pageId, editor }) {
         onPreview={(value) => editor.previewRotation(item.id, value)}
         onCommit={(rotation) => editor.transform(pageId, item.id, { ...item, rotation })}
       />
+
+      {item.type === 'photo' && (
+        <CaptionField
+          key={`${item.id}:${item.props.caption}`}
+          caption={item.props.caption}
+          onCommit={(caption) => editor.updateProps(pageId, item.id, { caption })}
+        />
+      )}
 
       {item.type === 'text' && (
         <TextProperties props={item.props} onChange={(props) => editor.updateProps(pageId, item.id, props)} />

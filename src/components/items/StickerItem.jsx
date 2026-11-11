@@ -1,11 +1,8 @@
 import { findLibraryEntry } from '../../data/stickers.js'
 
-// Aşama 3: yer tutucu şekil. Çizim Aşama 4'te gelir.
+// Çıkartmanın çevresinde krem kesim kenarı vardır (SPEC 8.1, CSS: .art--cut).
 export default function StickerItem({ item }) {
   const entry = findLibraryEntry(item.props.stickerId)
-  return (
-    <div className="placeholder placeholder--sticker">
-      <span>{entry?.label ?? 'Çıkartma'}</span>
-    </div>
-  )
+  if (!entry) return <div className="art art--missing">Çıkartma bulunamadı</div>
+  return <img className="art art--cut" src={entry.src} alt={entry.label} draggable={false} />
 }

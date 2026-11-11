@@ -11,7 +11,7 @@ import ConfirmDialog from './components/ConfirmDialog.jsx'
 import { appReducer, createInitialState } from './state/appReducer.js'
 import { canRedo, canUndo } from './state/history.js'
 import { displayTitle } from './state/model.js'
-import { addLibraryItemAction, addPageAction, addTextAction } from './state/actions.js'
+import { addLibraryItemAction, addPageAction, addPhotoAction, addTextAction } from './state/actions.js'
 import { findItem, spreadCount } from './state/uiReducer.js'
 import { MAX_PAGES } from './state/constants.js'
 import { usageRatio } from './state/storage.js'
@@ -19,6 +19,8 @@ import { useAutosave } from './hooks/useAutosave.js'
 import { useCrossTabGuard } from './hooks/useCrossTabGuard.js'
 import { usePrefs } from './hooks/usePrefs.js'
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts.js'
+import { usePhotoUpload } from './hooks/usePhotoUpload.js'
+import { canAddPhoto } from './lib/photoRules.js'
 import { createEditor } from './lib/editor.js'
 import { MESSAGES, deletePageQuestion } from './lib/messages.js'
 import './styles/layout.css'
@@ -58,6 +60,12 @@ export default function App({ boot }) {
   const selected = ui.selectedItemId ? findItem(notebook, ui.selectedItemId) : null
   const deleteSelected = () => selected && editor.deleteItem(selected.pageId, selected.item.id)
   const setPanelTab = (tab) => send('ui/setPanelTab', { tab })
+  const photos = usePhotoUpload({
+    storage: boot.storage,
+    onAdd: (pageId, photo) => dispatch(addPhotoAction(pageId, photo)),
+    onError: setToast,
+  })
+  const activePage = pages.find((p) => p.id === ui.activePageId)
   useKeyboardShortcuts({
     enabled: !pendingDelete,
     onDelete: deleteSelected,
@@ -105,6 +113,11 @@ export default function App({ boot }) {
           />
           <Toolbar
             hasSelection={Boolean(selected)}
+            photo={{
+              canAdd: canAddPhoto(activePage),
+              loading: photos.loading,
+              onFile: (file) => photos.upload(file, ui.activePageId),
+            }}
             onTab={setPanelTab}
             onAddText={() => dispatch(addTextAction(ui.activePageId))}
             onDeleteSelected={deleteSelected}

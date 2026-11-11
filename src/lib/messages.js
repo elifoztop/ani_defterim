@@ -7,6 +7,11 @@ export const MESSAGES = {
   storageWarn: 'Depolama alanı dolmak üzere.',
   staleTab: 'Defterin başka bir sekmede değişti. Kaybı önlemek için bu sekmeyi yenile.',
   maxPages: 'En fazla 8 sayfa olabilir.',
+  photoType: 'Bu dosya türü desteklenmiyor. PNG, JPG ya da WEBP seç.',
+  photoSize: "Bu fotoğraf 15 MB'tan büyük. Daha küçük bir dosya seç.",
+  photoRead: 'Fotoğraf açılamadı. Başka bir dosya dene.',
+  photoStorage: 'Depolama alanı dolmak üzere. Yeni fotoğraf eklemek için önce bir fotoğrafı sil.',
+  photoLimit: 'Bu sayfada en fazla 3 fotoğraf olabilir.',
   lastPage: 'Defterde en az bir sayfa olmalı.',
 }
 

@@ -93,3 +93,19 @@ Bu dosya, projenin hangi aşamasında yapay zekânın nasıl kullanıldığını
   - Çıkartma ve süsler yer tutucu kutulardır; çizimler Aşama 4'te gelecek. Fotoğraf ekleme Aşama 4'te.
   - Sol sayfadaki bir nesnenin tutamacı cilt çizgisini geçerse sağ sayfanın altında kalabilir.
   - Elle test yapılmadı. Claude tarayıcıyı göremez.
+
+## Aşama 4 — İçerik (11 Kasım 2026)
+
+- Yapay zekânın yaptığı:
+  - Fotoğraf eklemeyi yazdı: tür ve boyut kontrolü (`lib/photoRules.js`), tarayıcıda küçültme ve JPEG'e çevirme (`lib/imageCompress.js`: uzun kenar 600 px, kalite 0.75, 80 KB'ı geçerse 0.6), %90 depolama kontrolü, sayfa başına 3 fotoğraf sınırı, yükleniyor göstergesi ve SPEC 5'teki Türkçe hata mesajları.
+  - Polaroid çerçeveyi (`PhotoItem`) ve Özellikler panelindeki not alanını (`CaptionField`) yazdı.
+  - 7 çıkartma ve 6 süs çizimini SVG olarak tek partide üretti. Yalnızca SPEC 9.1 paleti kullanıldı (dosyalardaki renkler betikle kontrol edildi). Çizimleri başsız Edge ile bir önizleme sayfasında görüntüleyip kontrol etti; bozuk iki dosyayı ve zor seçilen iki süsü düzeltti.
+  - Yer tutucuları gerçek çizimlerle değiştirdi; çıkartmalara CSS ile krem kesim kenarı ekledi.
+  - `photoRules` testlerini yazdı (gif ve 20 MB reddi, 3 fotoğraf sınırı, küçültme boyutu, polaroid boyutu, doluluk artışı). Toplam 112 test. Bir testte kare fotoğrafın genişliği yanlış beklenmişti; test düzeltildi.
+  - DECISIONS'a 89–95 arası kararları ekledi.
+- Kullanılan eklenti / komut: Claude Code (Bash, Read, Write, Edit), Node betiği (SVG üretimi), Microsoft Edge başsız mod (önizleme ekran görüntüsü), `npm run build`, `npm run lint`, `npm test`.
+- Benim kontrol ettiğim ya da değiştirdiğim: (Taslak, Claude yazdı) Aşama 3'ün hızlı denemesini yapıp "tamam" dedim. Aşama 4'ün elle denemesi ve çizim onayı bekliyor.
+- Bilinen eksikler:
+  - Çizimler kullanıcı onayı bekliyor.
+  - Fotoğraf sıkıştırma tarayıcıya bağlı olduğu için otomatik test edilmedi; yalnızca kurallar test edildi.
+  - Elle test yapılmadı. Claude tarayıcıyı göremez.

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 60" width="220" height="60">
+<defs><clipPath id="tape"><path d="M8 4 L212 4.6 L216.5 10.5 L211 17 L216.5 23.5 L211 30 L216.5 36.5 L211 43 L216.5 49.5 L211 56 L8 55.6 L3.5 49.5 L9 43 L3.5 36.5 L9 30 L3.5 23.5 L9 17 L3.5 10.5 L9 4 Z"/></clipPath></defs>
+<path d="M8 4 L212 4.6 L216.5 10.5 L211 17 L216.5 23.5 L211 30 L216.5 36.5 L211 43 L216.5 49.5 L211 56 L8 55.6 L3.5 49.5 L9 43 L3.5 36.5 L9 30 L3.5 23.5 L9 17 L3.5 10.5 L9 4 Z" fill="#A7B69B" opacity="0.88"/>
+<g clip-path="url(#tape)" stroke="#E8DDCC" stroke-width="1.6" opacity="0.75">
+<path d="M4 0 V60"/><path d="M14 0 V60"/><path d="M24 0 V60"/><path d="M34 0 V60"/><path d="M44 0 V60"/><path d="M54 0 V60"/><path d="M64 0 V60"/><path d="M74 0 V60"/><path d="M84 0 V60"/><path d="M94 0 V60"/><path d="M104 0 V60"/><path d="M114 0 V60"/><path d="M124 0 V60"/><path d="M134 0 V60"/><path d="M144 0 V60"/><path d="M154 0 V60"/><path d="M164 0 V60"/><path d="M174 0 V60"/><path d="M184 0 V60"/><path d="M194 0 V60"/><path d="M204 0 V60"/><path d="M214 0 V60"/>
+<path d="M0 5 H220"/><path d="M0 15 H220"/><path d="M0 25 H220"/><path d="M0 35 H220"/><path d="M0 45 H220"/><path d="M0 55 H220"/>
+</g>
+</svg>

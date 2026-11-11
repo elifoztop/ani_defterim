@@ -1,11 +1,8 @@
 import { findLibraryEntry } from '../../data/stickers.js'
 
-// Aşama 3: yer tutucu şekil. Çizim Aşama 4'te gelir.
+// Süslerde kesim kenarı yoktur (SPEC 8.2).
 export default function DecorationItem({ item }) {
   const entry = findLibraryEntry(item.props.decorationId)
-  return (
-    <div className="placeholder placeholder--decoration">
-      <span>{entry?.label ?? 'Süs'}</span>
-    </div>
-  )
+  if (!entry) return <div className="art art--missing">Süs bulunamadı</div>
+  return <img className="art" src={entry.src} alt={entry.label} draggable={false} />
 }

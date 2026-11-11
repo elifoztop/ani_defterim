@@ -21,6 +21,9 @@
   /* Pasif butonların yazısı. --bg-surface üzerinde kontrast yaklaşık 4.8:1 */
   --text-disabled: #8F9488;
 
+  /* Polaroid çerçevesi: kağıttan biraz daha açık, fotoğraf kağıttan ayrışsın */
+  --polaroid: #F4EFE6;
+
   --glass-bg: rgba(32, 41, 34, 0.62);
   --glass-border: rgba(232, 221, 204, 0.1);
   --glass-shine: inset 0 1px 0 rgba(232, 221, 204, 0.07);

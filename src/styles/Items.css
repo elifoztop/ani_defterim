@@ -88,25 +88,69 @@
   text-align: inherit;
 }
 
-.placeholder {
-  display: grid;
-  place-items: center;
+.art {
+  display: block;
   width: 100%;
   height: 100%;
+  pointer-events: none;
+}
+
+/* Çıkartmanın krem kesim kenarı: şeklin çevresine dört yönde gölge (SPEC 8.1). */
+.art--cut {
+  --cut: max(1.5px, calc(var(--u, 1px) * 3));
+  filter:
+    drop-shadow(var(--cut) 0 0 var(--accent-cream))
+    drop-shadow(calc(var(--cut) * -1) 0 0 var(--accent-cream))
+    drop-shadow(0 var(--cut) 0 var(--accent-cream))
+    drop-shadow(0 calc(var(--cut) * -1) 0 var(--accent-cream))
+    drop-shadow(0 1px 2px rgba(48, 43, 39, 0.3));
+}
+
+.art--missing {
+  display: grid;
+  place-items: center;
+  border: 1px dashed var(--vintage-sepia);
   color: var(--vintage-umber);
-  font-family: var(--font-type);
-  font-size: calc(var(--u) * 18);
+  font-size: calc(var(--u) * 16);
   text-align: center;
 }
 
-.placeholder--sticker {
-  border: calc(var(--u) * 6) solid var(--accent-cream);
-  border-radius: calc(var(--u) * 24);
-  background: rgba(184, 154, 120, 0.35);
-  box-shadow: 0 calc(var(--u) * 3) calc(var(--u) * 6) rgba(48, 43, 39, 0.2);
+/* Polaroid ölçüleri çerçeve genişliğine göredir (cqw). İçeride --u kullanılmaz,
+   çünkü --u bu kapsayıcıda yanlış çözülür. */
+.item-frame--photo {
+  container-type: inline-size;
 }
 
-.placeholder--decoration {
-  border: calc(var(--u) * 2) dashed var(--vintage-sepia);
-  background: rgba(167, 182, 155, 0.35);
+.polaroid {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 6cqw 6cqw 0;
+  background: var(--polaroid);
+  box-shadow:
+    0 1px 2px rgba(48, 43, 39, 0.25),
+    0 4px 10px rgba(48, 43, 39, 0.18);
+}
+
+.polaroid__image {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  object-fit: cover;
+  background: var(--paper-shade);
+  pointer-events: none;
+}
+
+.polaroid__caption {
+  flex: none;
+  height: 22cqw;
+  overflow: hidden;
+  color: var(--ink);
+  font-size: 9cqw;
+  line-height: 22cqw;
+  text-align: center;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }

@@ -2,6 +2,7 @@ import { useItemTransform } from '../../hooks/useItemTransform.js'
 import TextItem from './TextItem.jsx'
 import StickerItem from './StickerItem.jsx'
 import DecorationItem from './DecorationItem.jsx'
+import PhotoItem from './PhotoItem.jsx'
 import '../../styles/Items.css'
 
 const unit = (value) => `calc(var(--u) * ${value})`
@@ -21,6 +22,7 @@ function ItemContent({ item, pageId, editing, editor }) {
   }
   if (item.type === 'sticker') return <StickerItem item={item} />
   if (item.type === 'decoration') return <DecorationItem item={item} />
+  if (item.type === 'photo') return <PhotoItem item={item} />
   return null
 }
 

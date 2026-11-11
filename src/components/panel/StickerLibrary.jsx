@@ -1,7 +1,6 @@
 import { LIBRARY } from '../../data/stickers.js'
 import '../../styles/Properties.css'
 
-// Aşama 3: yer tutucu kartlar. Çizimler Aşama 4'te gelir.
 export default function StickerLibrary({ kind, onAdd }) {
   const entries = LIBRARY.filter((entry) => entry.kind === kind)
   return (
@@ -13,7 +12,7 @@ export default function StickerLibrary({ kind, onAdd }) {
           className={`library__item library__item--${kind}`}
           onClick={() => onAdd(entry)}
         >
-          <span className="library__thumb" aria-hidden="true" />
+          <img className={`library__thumb${kind === 'sticker' ? ' art--cut' : ''}`} src={entry.src} alt="" />
           {entry.label}
         </button>
       ))}
