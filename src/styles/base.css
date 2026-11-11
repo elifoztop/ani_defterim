@@ -1,0 +1,92 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  color: var(--accent-cream);
+  font-family: var(--font-ui);
+  font-size: 15px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+}
+
+.icon {
+  width: 18px;
+  height: 18px;
+  flex: none;
+}
+
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shine), 0 10px 30px rgba(0, 0, 0, 0.35);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  background: rgba(232, 221, 204, 0.06);
+  color: var(--accent-cream);
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.btn:hover:not(:disabled) {
+  background: rgba(232, 221, 204, 0.12);
+  border-color: rgba(232, 221, 204, 0.22);
+}
+
+.btn:focus-visible {
+  outline: 2px solid var(--accent-lavender);
+  outline-offset: 2px;
+}
+
+.btn--icon {
+  padding: 9px;
+}
+
+.btn--danger {
+  color: var(--danger);
+  border-color: rgba(194, 112, 100, 0.35);
+  background: rgba(194, 112, 100, 0.08);
+}
+
+.btn:disabled {
+  color: var(--text-disabled);
+  background: transparent;
+  border-style: dashed;
+  border-color: rgba(143, 148, 136, 0.35);
+  cursor: not-allowed;
+}
+
+.btn--danger:disabled {
+  border-color: rgba(194, 112, 100, 0.3);
+}

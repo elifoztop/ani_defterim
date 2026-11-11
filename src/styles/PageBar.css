@@ -1,0 +1,27 @@
+.pagebar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 8px;
+  border-radius: 14px;
+}
+
+.pagebar__label {
+  padding: 6px 12px;
+  border: 1px solid rgba(182, 160, 212, 0.3);
+  border-radius: 8px;
+  background: rgba(182, 160, 212, 0.1);
+  font-family: var(--font-type);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.pagebar__divider {
+  width: 1px;
+  height: 24px;
+  margin: 0 4px;
+  background: var(--glass-border);
+}

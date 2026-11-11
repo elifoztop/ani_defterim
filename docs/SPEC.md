@@ -320,7 +320,7 @@ Washi tape ve bant, fotoğrafın köşesine yapıştırılmış gibi görünmek 
 
 - Üç font: bir el yazısı, bir serif, bir daktilo fontu.
 - Fontlar açık lisanslı (OFL) ve `src/assets/fonts/` altında yerel `ttf` dosyası olmalı. Kaynak google/fonts deposudur. Bu depoda `woff2` yok, `ttf` var. Dönüştürme için araç ya da paket kurulmaz.
-  - El yazısı: Caveat (değişken font). İtalik dosyası yoktur. `italic` değeri kayıtta korunur, ama yazı tipi El yazısı iken uygulanmaz. Bu durumda İtalik butonu pasiftir. Kullanıcı başka bir fonta geçince italik yeniden uygulanır. Tarayıcının yapay eğiklik üretmemesi için bu fontta `font-synthesis: style none` kullanılır.
+  - El yazısı: Caveat (değişken font). İtalik dosyası yoktur. `italic` değeri kayıtta korunur, ama yazı tipi El yazısı iken uygulanmaz. Bu durumda İtalik butonu pasiftir. Kullanıcı başka bir fonta geçince italik yeniden uygulanır. Tarayıcının yapay eğiklik üretmemesi için bu fontta `font-synthesis-style: none` kullanılır.
   - Serif: Lora (değişken font + italik dosyası).
   - Daktilo: Courier Prime (normal, kalın, italik, kalın italik).
 - Fontlar Türkçe karakterleri göstermeli. Test cümlesi: `Ilık şömine, güzel çay, İstanbul, ĞÜŞİÖÇ`. Bir karakter yedek fonta düşüyorsa o fontu değiştir.

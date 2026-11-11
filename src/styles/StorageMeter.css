@@ -1,0 +1,28 @@
+.storage-meter__row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.storage-meter__track {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(232, 221, 204, 0.1);
+}
+
+.storage-meter__fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent-lavender);
+  transition: width 0.3s;
+}
+
+.storage-meter--warn .storage-meter__row {
+  color: var(--accent-gold);
+}
+
+.storage-meter--warn .storage-meter__fill {
+  background: var(--accent-gold);
+}

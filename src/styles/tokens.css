@@ -1,0 +1,37 @@
+:root {
+  --bg-deep: #101512;
+  --bg-forest: #18231D;
+  --bg-surface: #202922;
+  --accent-lavender: #B6A0D4;
+  --accent-sage: #A7B69B;
+  --accent-cream: #E8DDCC;
+  --accent-gold: #C6A775;
+  --paper: #E9E1D5;
+  --paper-shade: #DCD0C0;
+  --ink: #302B27;
+
+  /* Yalnızca silme butonları için. --bg-deep üzerinde kontrast yaklaşık 5.1:1 */
+  --danger: #C27064;
+
+  /* Yalnızca çıkartma ve süs çizimleri için */
+  --vintage-umber: #6B4F3A;
+  --vintage-sepia: #8C6E52;
+  --vintage-tan: #B89A78;
+
+  /* Pasif butonların yazısı. --bg-surface üzerinde kontrast yaklaşık 4.8:1 */
+  --text-disabled: #8F9488;
+
+  --glass-bg: rgba(32, 41, 34, 0.62);
+  --glass-border: rgba(232, 221, 204, 0.1);
+  --glass-shine: inset 0 1px 0 rgba(232, 221, 204, 0.07);
+  --glass-blur: blur(14px);
+
+  --font-ui: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-hand: 'Caveat', cursive;
+  --font-serif: 'Lora', Georgia, serif;
+  --font-type: 'Courier Prime', 'Courier New', monospace;
+
+  --topbar-h: 64px;
+  --panel-w: clamp(280px, 22vw, 340px);
+  --radius: 12px;
+}

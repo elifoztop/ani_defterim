@@ -1,0 +1,19 @@
+.save-status {
+  justify-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border: 1px solid var(--glass-border);
+  border-radius: 999px;
+  background: rgba(232, 221, 204, 0.05);
+  font-size: 14px;
+}
+
+.save-status__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent-sage);
+  box-shadow: 0 0 8px rgba(167, 182, 155, 0.6);
+}

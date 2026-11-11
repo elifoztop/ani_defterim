@@ -31,3 +31,23 @@ Bu dosya, projenin hangi aşamasında yapay zekânın nasıl kullanıldığını
 - Benim kontrol ettiğim ya da değiştirdiğim: (bunu ben doldururum)
   - PLAN incelemesinden sonra kullanıcının 4 düzeltmesini ve 2 eklemesini belgelere işledi: ayrı `panelTab` durumu, geçmişe yeni adım açmayan `item/measure`, geçersiz referans temizliği, esnek doğrulama, `storage` olayı uyarısı, Caveat'ta korunan ama uygulanmayan italik. Düzeltme 3'ü uygulamak için UI durumunu saf bir `uiReducer` içine aldı ve tek kök reducer önerdi (karar 46). DECISIONS'a 44–50 arası kararları ekledi, PLAN.md'yi yeniden yazdı.
 - Bilinen eksikler: `npm test` betiği henüz yok, Aşama 1'de eklenecek. İki sekme maddesi SPEC 12'ye eklendi. README'ye Aşama 5'te geçecek.
+
+## Aşama 1 — Kurulum ve görsel iskelet (11 Kasım 2026)
+
+- Yapay zekânın yaptığı:
+  - Şablonun demo dosyalarını sildi (`App.css`, `index.css`, `hero.png`, `react.svg`, `vite.svg`, `icons.svg`). Paket adını `ani-defterim` yaptı ve `npm test` betiğini ekledi. ESLint'e `tests/` için Node global'lerini ekledi. `netlify.toml`, taç ikonlu `favicon.svg` ve Türkçe `index.html` yazdı.
+  - `src/state/constants.js` sabitlerini ve `tests/constants.test.js` testini yazdı.
+  - Caveat, Lora ve Courier Prime fontlarını google/fonts deposundan TTF olarak indirdi ve OFL lisans dosyalarını yanına koydu. Yedi font dosyasının cmap tablosunu küçük bir Node betiğiyle okudu. Türkçe test cümlesinin bütün karakterlerinin her dosyada bulunduğunu doğruladı.
+  - Renk değişkenlerini, LED arka planı (yavaş hareket, `prefers-reduced-motion` desteği), cam panelleri ve kağıt dokusunu (`feTurbulence`) saf CSS ile yazdı.
+  - Bileşenleri yazdı: `TopBar`, `SaveStatus`, `Notebook`, `Page`, `PageTitle`, `EmptyFace`, `PageBar`, `Toolbar`, `SidePanel`, `StorageMeter`, `NarrowScreenNotice`, `Icon`. İşlevi olmayan bütün butonlar pasif.
+  - DECISIONS'a 51–59 arası kararları ekledi.
+- Kullanılan eklenti / komut: Claude Code (Bash, Read, Write, Edit), `curl` ile font indirme, `npm run build`, `npm run lint`, `npm test`. context7 eklentisi bu oturumda giriş istediği için kullanılamadı. Bu aşamada React 19'a özgü bir API ya da Pointer Events kullanılmadı. Yalnızca bileşen ve CSS yazıldı.
+- Benim kontrol ettiğim ya da değiştirdiğim: (bunu ben doldururum)
+- Bilinen eksikler:
+  - Claude tarayıcıyı göremez. Yerleşim 1440, 1024 ve 800 px'te elle test bekliyor.
+  - Netlify ilk yayınını kullanıcı yapacak (karar 38). Adımlar TEST-CHECKLIST'te.
+  - Panel sekme geçişi, sayfa gezintisi ve bütün butonlar Aşama 2–4'te bağlanacak. `previewData.js` geçicidir, Aşama 2'de silinecek.
+  - TTF dosyaları toplam yaklaşık 1,1 MB. `font-display: swap` sayesinde yazı hemen görünür, font sonra yüklenir.
+- Elle test sonrası düzeltme:
+  - Kullanıcı ayraç şeridinin sağ sayfanın başlığına bindiğini buldu. Claude sağ sayfanın başlık alanını sağ kenardan 150 birim önce bitirdi ve ayracı bu boşluğa taşıdı (karar 60). 40 karakterlik başlık `…` ile kesilir ve ayraca değmez.
+  - SPEC 8.4 ve karar 32'deki geçersiz `font-synthesis: style none` yazımını `font-synthesis-style: none` olarak düzeltti.

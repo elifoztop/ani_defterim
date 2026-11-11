@@ -1,0 +1,153 @@
+.notebook-stage {
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  display: grid;
+  place-items: center;
+  container-type: size;
+}
+
+/* İki sayfa yan yana: 1600 × 1000 sayfa birimi. Defter hem genişliğe hem yüksekliğe sığar. */
+.notebook {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: min(100cqw, 160cqh);
+  aspect-ratio: 16 / 10;
+  container-type: inline-size;
+  border-radius: 14px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.4),
+    0 6px 14px rgba(0, 0, 0, 0.3),
+    0 24px 48px rgba(0, 0, 0, 0.4),
+    0 48px 90px rgba(0, 0, 0, 0.35);
+}
+
+/* 1 sayfa birimi. cqw burada .notebook kapsayıcısına göre çözülür. */
+.notebook > * {
+  --u: calc(100cqw / 1600);
+}
+
+.notebook::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(50% - 1px);
+  width: 2px;
+  background: rgba(48, 43, 39, 0.18);
+  pointer-events: none;
+}
+
+.page {
+  --spine: linear-gradient(to left, rgba(48, 43, 39, 0.16), transparent 7%);
+  position: relative;
+  overflow: hidden;
+  background-color: var(--paper);
+  background-image:
+    var(--spine),
+    radial-gradient(circle, rgba(48, 43, 39, 0.17) 1px, transparent 1.5px),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.19 0 0 0 0 0.17 0 0 0 0 0.15 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:
+    100% 100%,
+    calc(var(--u) * 32) calc(var(--u) * 32),
+    240px 240px;
+  transition: box-shadow 0.2s;
+}
+
+.page--left {
+  border-radius: 14px 0 0 14px;
+}
+
+.page--right {
+  --spine: linear-gradient(to right, rgba(48, 43, 39, 0.16), transparent 7%);
+  border-radius: 0 14px 14px 0;
+}
+
+.page--active {
+  box-shadow:
+    inset 0 0 0 1px rgba(182, 160, 212, 0.5),
+    inset 0 0 calc(var(--u) * 40) rgba(182, 160, 212, 0.24);
+}
+
+.page-title {
+  position: absolute;
+  top: calc(var(--u) * 44);
+  left: calc(var(--u) * 60);
+  right: calc(var(--u) * 60);
+  margin: 0;
+  padding-bottom: calc(var(--u) * 10);
+  border-bottom: 1px solid rgba(48, 43, 39, 0.14);
+  color: rgba(48, 43, 39, 0.78);
+  font-family: var(--font-serif);
+  font-size: calc(var(--u) * 34);
+  font-style: italic;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Başlık alanı ayraç şeridinden önce biter (karar 60). */
+.page--right .page-title {
+  right: calc(var(--u) * 150);
+  text-align: right;
+}
+
+.page__hint {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 0 calc(var(--u) * 90);
+  color: rgba(48, 43, 39, 0.4);
+  font-size: calc(var(--u) * 40);
+  text-align: center;
+  pointer-events: none;
+}
+
+.page--empty {
+  display: grid;
+  place-items: center;
+  background-color: var(--paper-shade);
+}
+
+.page__add {
+  color: var(--ink);
+  border-color: rgba(48, 43, 39, 0.3);
+  background: rgba(255, 255, 255, 0.25);
+}
+
+.page__add:disabled {
+  color: rgba(48, 43, 39, 0.55);
+  border-color: rgba(48, 43, 39, 0.3);
+}
+
+.notebook__ribbon {
+  position: absolute;
+  top: calc(var(--u) * -4);
+  right: calc(var(--u) * 72);
+  width: calc(var(--u) * 26);
+  height: calc(var(--u) * 200);
+  background: var(--accent-lavender);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 90%, 0 100%);
+  filter: drop-shadow(0 2px 2px rgba(48, 43, 39, 0.25));
+  pointer-events: none;
+}
+
+.notebook__footer {
+  position: absolute;
+  bottom: calc(var(--u) * 26);
+  color: rgba(48, 43, 39, 0.45);
+  font-size: calc(var(--u) * 30);
+  pointer-events: none;
+}
+
+.notebook__footer--left {
+  left: calc(var(--u) * 60);
+}
+
+.notebook__footer--right {
+  right: calc(var(--u) * 60);
+}
