@@ -239,27 +239,50 @@ Kullanıcı bir yazı alanına yazarken bu kısayollar çalışmaz.
 
 ## 8. Hazır içerik
 
-### 8.1 Çıkartmalar (12)
+### 8.1 Çıkartmalar (7)
 
-| Grup | Çıkartmalar |
-|---|---|
-| Çiçek & Doğa | lavanta dalı, sarmaşık yaprağı, menekşe |
-| Kitap & Kahve | kitap yığını, kahve fincanı, açık kitap |
-| Kediler | oturan kedi, uyuyan kedi, kedi yüzü |
-| Yıldız & Kalp | dört köşeli yıldız, kalp, küçük taç |
+Çıkartmalar vintage estetiğindedir. Panelde grup başlığı olmadan tek bir ızgarada görünür.
 
-### 8.2 Süsler (6)
+| id | Çıkartma | Tarif |
+|---|---|---|
+| `coffee` | Kahve | Tabağıyla birlikte bir kahve fincanı, üstünde ince buhar çizgileri |
+| `star` | Yıldız | Tek, büyük, dört köşeli yıldız |
+| `cactus` | Kaktüs | Küçük toprak saksıda yuvarlak bir kaktüs |
+| `bow` | Fiyonk | İki kuyruklu bir fiyonk |
+| `deer` | Geyik | Yandan görünen, boynuzlu bir geyik. İnce çizgi illüstrasyon |
+| `fairy-lights` | LED ışık | Hafif sarkan bir tel üzerinde 6-8 küçük ampul (peri ışıkları) |
+| `books` | Kitap | Üç kitaptan oluşan bir yığın |
 
-Düz washi tape, kareli washi tape, noktalı washi tape, adaçayı yeşili kurdele, lavanta kurdele, yırtık kenarlı kağıt etiket.
+Çıkartmaların çevresinde krem renkli (`--accent-cream`) ince bir kesim kenarı bulunur. Bu kenar gerçek bir çıkartma etiketi hissi verir.
+
+### 8.2 Süsler (4 tür, 6 çizim)
+
+Süslerde kesim kenarı yoktur.
+
+| id | Süs | Tarif |
+|---|---|---|
+| `stamp` | Pul | Tırtıklı kenarlı bir posta pulu. İçinde küçük, sade bir dal çizimi |
+| `washi-plain` | Washi tape | Düz renkli, kenarları hafif yırtık kağıt bant |
+| `washi-grid` | Washi tape | Kareli desenli kağıt bant |
+| `washi-dots` | Washi tape | Noktalı desenli kağıt bant |
+| `clear-tape` | Bant | Yarı saydam selobant parçası. Opaklık yaklaşık 0.45. Altındaki fotoğraf görünür |
+| `sparkle` | Işıltı | 3-5 küçük, farklı boyutlu parıltıdan oluşan bir küme |
+
+Yıldız ile ışıltı farklıdır. Yıldız tek ve büyük bir çizimdir. Işıltı küçük parıltılardan oluşan bir kümedir.
+
+Washi tape ve bant, fotoğrafın köşesine yapıştırılmış gibi görünmek için tasarlanır. Kullanıcı bunları fotoğrafın üstüne yerleştirir ve "Öne getir" ile fotoğrafın üstüne alır.
 
 ### 8.3 Çizim kuralları
 
 - Her çizim `src/assets/stickers/` altında ayrı bir SVG dosyasıdır.
-- Çizimler yalnızca SPEC bölüm 9.1'deki renkleri kullanır.
-- Kontur ince ve hafif düzensizdir (el çizimi hissi). Dolgu düzdür. Gerçekçi gölge ve gradyan kullanma.
+- Çizimler yalnızca bölüm 9.1'deki renkleri kullanır: projenin paleti ve eskitilmiş kahverengi tonlar.
+- Kontur ince ve hafif düzensizdir (el çizimi hissi). Dolgu düzdür. Renkler hafif soluktur. Gerçekçi gölge ve gradyan kullanma.
 - Her SVG'de `viewBox` vardır. SVG dış dosyaya, fonta ya da görsele bağlanmaz.
-- `src/data/stickers.js` her çizimin `id`, `group`, `label`, `src` ve varsayılan boyutunu tutar.
-- Çizimleri 3 partide üret: (1) Çiçek & Doğa + Yıldız & Kalp, (2) Kitap & Kahve + Kediler, (3) Süsler. Her partiden sonra dur. Ben onaylamadan sonraki partiye geçme.
+- `src/data/stickers.js` her çizimin `id`, `kind` (`sticker` ya da `decoration`), `label`, `src` ve varsayılan boyutunu tutar.
+- Çizimleri 3 partide üret. Her partiden sonra dur. Ben onaylamadan sonraki partiye geçme.
+  1. Kahve, kitap, yıldız, ışıltı
+  2. Kaktüs, fiyonk, geyik, LED ışık
+  3. Pul, üç washi tape, bant
 
 ### 8.4 Yazı tipleri
 
@@ -279,6 +302,9 @@ Düz washi tape, kareli washi tape, noktalı washi tape, adaçayı yeşili kurde
 --accent-lavender: #B6A0D4;  --accent-sage: #A7B69B;
 --accent-cream: #E8DDCC;     --accent-gold: #C6A775;
 --paper: #E9E1D5;        --paper-shade: #DCD0C0; --ink: #302B27;
+
+/* Yalnızca çıkartma ve süs çizimleri için eskitilmiş kahverengi tonlar */
+--vintage-umber: #6B4F3A;    --vintage-sepia: #8C6E52;   --vintage-tan: #B89A78;
 ```
 
 Bütün yazı nesneleri `--ink` rengindedir.
@@ -296,7 +322,7 @@ Bütün yazı nesneleri `--ink` rengindedir.
 
 ### 9.3 Referans görsel
 
-Referans görselden şunları al: defterin ekrandaki ağırlığı, sağda dikey cam panel, altta yüzen araç çubuğu, polaroid ile washi tape ilişkisi.
+Referans görselden şunları al: defterin ekrandaki ağırlığı, sağda dikey cam panel, altta yüzen araç çubuğu, polaroid ile washi tape ilişkisi, çıkartmaların krem kesim kenarı.
 
 Şunları alma: görseldeki fotoğraflar, kedi, kale çizimi, masa nesneleri.
 
@@ -345,7 +371,7 @@ Her aşamanın bir "Bitti" tanımı var. Bitti tanımındaki her madde sağlanma
 ### Aşama 4 — İçerik (1-2 gün)
 
 - Fotoğraf yükleme, sıkıştırma, polaroid, not, sınırlar ve hata mesajları.
-- 12 çıkartma ve 6 süs, 3 partide (bölüm 8.3).
+- 7 çıkartma ve 6 süs çizimi, 3 partide (bölüm 8.3).
 
 **Bitti:** 3 fotoğraflı bir sayfa yenilemeden sonra aynen geliyor. Bütün çıkartmalar onaylandı. Depolama göstergesi fotoğraf ekleyince artıyor.
 
