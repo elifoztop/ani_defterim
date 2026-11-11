@@ -59,6 +59,12 @@ function selectNewItem(ui, notebook, item) {
   return { ...ui, selectedItemId: item.id, editingItemId, activePageId: pageId, panelTab: 'properties' }
 }
 
+// Nesne karşı sayfaya geçince aktif sayfa da onunla gider (karar 100).
+function followItem(ui, notebook, itemId) {
+  const pageId = findItemPageId(notebook, itemId)
+  return pageId && pageId !== ui.activePageId ? { ...ui, activePageId: pageId } : ui
+}
+
 export function uiReducer(ui, action, notebook) {
   const payload = action.payload ?? {}
   switch (action.type) {
@@ -76,6 +82,8 @@ export function uiReducer(ui, action, notebook) {
       return { ...ui, editingItemId: null }
     case 'ui/setPanelTab':
       return setPanelTab(ui, payload.tab)
+    case 'item/transform':
+      return followItem(ui, notebook, payload.itemId)
     case 'item/add':
       return selectNewItem(ui, notebook, payload.item)
     case 'page/add':

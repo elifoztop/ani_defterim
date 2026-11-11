@@ -58,7 +58,7 @@ export default function App({ boot }) {
     setPendingDelete(null)
   }
 
-  const editor = createEditor(send, ui, rotationPreview, setRotationPreview)
+  const editor = createEditor(send, ui, rotationPreview, setRotationPreview, setToast)
   const selected = ui.selectedItemId ? findItem(notebook, ui.selectedItemId) : null
   const deleteSelected = () => selected && editor.deleteItem(selected.pageId, selected.item.id)
   const setPanelTab = (tab) => send('ui/setPanelTab', { tab })

@@ -1,4 +1,4 @@
-import { MAX_PHOTOS_PER_PAGE } from './constants.js'
+import { MAX_PHOTOS_PER_PAGE, PAGE_W } from './constants.js'
 import { clampItemToPage } from '../lib/geometry.js'
 
 // Nesne eylemleri. Değişiklik yoksa aynı notebook döner (geçmişe adım yazılmaz).
@@ -27,11 +27,36 @@ function updateItem(notebook, { pageId, itemId }, change) {
   })
 }
 
+const photoLimitReached = (items, item) =>
+  item.type === 'photo' && items.filter((existing) => existing.type === 'photo').length >= MAX_PHOTOS_PER_PAGE
+
 function addItem(items, item) {
   if (items.some((existing) => existing.id === item.id)) return items
-  const photos = items.filter((existing) => existing.type === 'photo').length
-  if (item.type === 'photo' && photos >= MAX_PHOTOS_PER_PAGE) return items
+  if (photoLimitReached(items, item)) return items
   return [...items, clampItemToPage(item)]
+}
+
+// Nesne açık defterdeki karşı sayfaya geçer: kaynaktan çıkar, hedefin en üstüne eklenir.
+// Yalnızca aynı açık defterdeki iki sayfa arasında olur. Hedefte 3 fotoğraf varsa nesne
+// kendi sayfasında kalır ve o sayfanın içine itilir (karar 100).
+function moveToPage(notebook, payload) {
+  const from = notebook.pages.findIndex((p) => p.id === payload.pageId)
+  const to = notebook.pages.findIndex((p) => p.id === payload.toPageId)
+  const item = notebook.pages[from]?.items.find((i) => i.id === payload.itemId)
+  const sameSpread = from >= 0 && to >= 0 && Math.floor(from / 2) === Math.floor(to / 2)
+  if (!item || !sameSpread) return notebook
+  if (photoLimitReached(notebook.pages[to].items, item)) {
+    // x hedef sayfanın koordinatında geldi; kaynağa çevrilir, nesne cilt kenarında durur.
+    const x = to > from ? payload.x + PAGE_W : payload.x - PAGE_W
+    return updateItem(notebook, payload, (current) => transform(current, { ...payload, x }))
+  }
+  const moved = clampItemToPage({ ...item, ...pick(payload, GEOMETRY_KEYS) })
+  const pages = notebook.pages.map((page, i) => {
+    if (i === from) return { ...page, items: page.items.filter((existing) => existing !== item) }
+    if (i === to) return { ...page, items: [...page.items, moved] }
+    return page
+  })
+  return { ...notebook, pages }
 }
 
 function transform(item, payload) {
@@ -73,6 +98,7 @@ export function reduceItems(notebook, { type, payload }) {
     case 'item/delete':
       return updateItem(notebook, payload, () => null)
     case 'item/transform':
+      if (payload.toPageId && payload.toPageId !== payload.pageId) return moveToPage(notebook, payload)
       return updateItem(notebook, payload, (item) => transform(item, payload))
     case 'item/updateProps':
       return updateItem(notebook, payload, (item) => updateProps(item, payload.props))

@@ -3,7 +3,8 @@ import TextItem from './TextItem.jsx'
 import StickerItem from './StickerItem.jsx'
 import DecorationItem from './DecorationItem.jsx'
 import PhotoItem from './PhotoItem.jsx'
-import { ITEM_TYPE_LABELS } from '../../lib/messages.js'
+import { ITEM_TYPE_LABELS, MESSAGES } from '../../lib/messages.js'
+import { dragBoundsX, dropTarget } from '../../lib/geometry.js'
 import '../../styles/Items.css'
 
 const unit = (value) => `calc(var(--u) * ${value})`
@@ -26,14 +27,28 @@ function ItemContent({ item, pageId, editing, editor }) {
   return null
 }
 
-export default function ItemFrame({ item, pageId, editor }) {
+// opposite: açık defterdeki karşı sayfa { pageId, acceptsPhoto } ya da null.
+export default function ItemFrame({ item, pageId, side, opposite, editor }) {
   const selected = editor.selectedItemId === item.id
   const editing = editor.editingItemId === item.id
   const isText = item.type === 'text'
+
+  // Bırakınca nesne merkezinin düştüğü sayfaya ait olur (karar 100).
+  const commit = (next) => {
+    const drop = dropTarget(next.x, side)
+    if (!drop.crossed || !opposite) {
+      editor.transform(pageId, item.id, next)
+      return
+    }
+    if (item.type === 'photo' && !opposite.acceptsPhoto) editor.notify(MESSAGES.photoLimit)
+    editor.transform(pageId, item.id, { ...next, x: drop.x }, opposite.pageId)
+  }
+
   const { draft, handlers } = useItemTransform(item, {
     disabled: editing,
+    bounds: dragBoundsX(side, Boolean(opposite)),
     onStart: () => !editing && editor.select(pageId, item.id),
-    onCommit: (next) => editor.transform(pageId, item.id, next),
+    onCommit: commit,
   })
 
   const shown = draft ?? item
@@ -50,6 +65,7 @@ export default function ItemFrame({ item, pageId, editor }) {
     `item-frame--${item.type}`,
     selected && 'item-frame--selected',
     editing && 'item-frame--editing',
+    draft && 'item-frame--dragging',
   ]
     .filter(Boolean)
     .join(' ')

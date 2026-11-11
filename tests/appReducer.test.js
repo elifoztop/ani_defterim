@@ -188,3 +188,19 @@ test('başka açık defterdeki nesnenin değişikliği geri alınınca o açık 
   assert.equal(state.ui.activePageId, firstPage)
   assert.equal(pageItems(state)[0].x, 400)
 })
+
+test('karşı sayfaya geçiş tek geri al adımıdır; aktif sayfa ve seçim nesneyle gider', () => {
+  let state = createInitialState(createEmptyNotebook(), {})
+  const [left, right] = state.history.present.pages.map((p) => p.id)
+  state = appReducer(state, addLibraryItemAction(left, STAR, () => 0.5))
+  const itemId = pageItems(state)[0].id
+  const steps = state.history.past.length
+  state = act(state, 'item/transform', { pageId: left, itemId, x: 300, y: 400, w: 140, h: 140, rotation: 0, toPageId: right })
+  assert.equal(pageItems(state, 1)[0].id, itemId)
+  assert.equal(state.ui.activePageId, right)
+  assert.equal(state.ui.selectedItemId, itemId)
+  assert.equal(state.history.past.length, steps + 1)
+  state = act(state, 'history/undo')
+  assert.equal(pageItems(state, 0)[0].id, itemId)
+  assert.equal(pageItems(state, 1).length, 0)
+})

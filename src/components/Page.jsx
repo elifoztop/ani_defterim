@@ -2,7 +2,7 @@ import PageTitle from './PageTitle.jsx'
 import ItemFrame from './items/ItemFrame.jsx'
 import { displayTitle } from '../state/model.js'
 
-export default function Page({ page, index, side, activePageId, onActivate, onRename, editor }) {
+export default function Page({ page, index, side, opposite, activePageId, onActivate, onRename, editor }) {
   const active = page.id === activePageId
   const shown = displayTitle(page, index)
   const className = `page page--${side}${active ? ' page--active' : ''}`
@@ -20,7 +20,7 @@ export default function Page({ page, index, side, activePageId, onActivate, onRe
         <p className="page__hint font-hand">Panelden bir fotoğraf, çıkartma ya da not ekle →</p>
       )}
       {page.items.map((item) => (
-        <ItemFrame key={item.id} item={item} pageId={page.id} editor={editor} />
+        <ItemFrame key={item.id} item={item} pageId={page.id} side={side} opposite={opposite} editor={editor} />
       ))}
     </section>
   )

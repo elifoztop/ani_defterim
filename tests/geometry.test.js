@@ -4,6 +4,8 @@ import {
   angleFromCenter,
   clampItemToPage,
   clampSize,
+  dragBoundsX,
+  dropTarget,
   normalizeAngle,
   resizeKeepRatio,
   resizeWidthOnly,
@@ -112,4 +114,29 @@ test('resizeWidthOnly yalnızca genişliği değiştirir', () => {
   near(next.w, 250)
   assert.equal(next.h, 50)
   near(next.x - next.w / 2, 50)
+})
+
+test('dragBoundsX: karşı sayfa varsa sürükleme alanı iki sayfaya genişler', () => {
+  assert.deepEqual(dragBoundsX('left', true), { minX: 0, maxX: 1600 })
+  assert.deepEqual(dragBoundsX('right', true), { minX: -800, maxX: 800 })
+  assert.deepEqual(dragBoundsX('left', false), { minX: 0, maxX: 800 })
+})
+
+test('clampItemToPage sürüklerken karşı sayfaya gidebilir, defterin dış kenarında durur', () => {
+  const bounds = dragBoundsX('left', true)
+  assert.equal(clampItemToPage(box({ x: 1200 }), bounds).x, 1200)
+  assert.equal(clampItemToPage(box({ x: 1700 }), bounds).x, 1550)
+})
+
+test('dropTarget: merkez cildin öbür tarafındaysa nesne karşı sayfaya geçer', () => {
+  assert.deepEqual(dropTarget(900, 'left'), { crossed: true, x: 100 })
+  assert.deepEqual(dropTarget(800, 'left'), { crossed: false, x: 800 })
+  assert.deepEqual(dropTarget(-50, 'right'), { crossed: true, x: 750 })
+  assert.deepEqual(dropTarget(10, 'right'), { crossed: false, x: 10 })
+})
+
+test('iki sayfa arasında kalan nesne bırakılınca tek sayfanın içine itilir', () => {
+  const straddling = box({ x: 780, w: 100 })
+  assert.equal(dropTarget(straddling.x, 'left').crossed, false)
+  assert.equal(clampItemToPage(straddling).x, 750)
 })

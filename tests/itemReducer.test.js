@@ -101,3 +101,39 @@ test('açılışta sayfa dışındaki nesne sayfaya geri itilir', () => {
   const { notebook } = normalizeNotebook({ schemaVersion: 1, pages: [{ id: 'p', items: [item('a', { x: 5000 })] }] })
   assert.equal(notebook.pages[0].items[0].x, 750)
 })
+
+const spread = (left, right, more = []) => ({
+  schemaVersion: 1,
+  updatedAt: 0,
+  pages: [{ id: 'L', title: '', items: left }, { id: 'R', title: '', items: right }, ...more],
+})
+const move = (nb, itemId, x, toPageId, from = 'L') =>
+  notebookReducer(nb, { type: 'item/transform', payload: { pageId: from, itemId, x, y: 500, w: 100, h: 100, rotation: 0, toPageId } })
+
+test('nesne karşı sayfaya geçer: kaynaktan çıkar, hedefin en üstüne eklenir', () => {
+  const nb = spread([item('a'), item('b')], [item('c')])
+  const next = move(nb, 'a', 120, 'R')
+  assert.deepEqual(next.pages[0].items.map((i) => i.id), ['b'])
+  assert.deepEqual(next.pages[1].items.map((i) => i.id), ['c', 'a'])
+  assert.equal(next.pages[1].items[1].x, 120)
+})
+
+test('karşı sayfaya geçen nesne o sayfanın içine itilir; iki sayfaya ait olmaz', () => {
+  const next = move(spread([item('a')], []), 'a', 10, 'R')
+  assert.equal(next.pages[1].items[0].x, 50)
+  assert.equal(next.pages[0].items.length, 0)
+})
+
+test('hedefte 3 fotoğraf varsa fotoğraf kendi sayfasında cilt kenarında kalır', () => {
+  const photo = (id) => item(id, { type: 'photo', props: { src: 'data:', caption: '' } })
+  const nb = spread([photo('p')], [photo('1'), photo('2'), photo('3')])
+  const next = move(nb, 'p', 100, 'R')
+  assert.equal(next.pages[1].items.length, 3)
+  assert.equal(next.pages[0].items[0].id, 'p')
+  assert.equal(next.pages[0].items[0].x, 750)
+})
+
+test('farklı açık defterdeki sayfaya geçiş yapılmaz', () => {
+  const nb = spread([item('a')], [], [{ id: 'X', title: '', items: [] }])
+  assert.equal(move(nb, 'a', 100, 'X'), nb)
+})

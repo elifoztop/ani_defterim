@@ -92,8 +92,11 @@ Sayfa başlığı kuralları (karar 78):
 
 - Her sayfa 800 × 1000 sayfa birimidir. Ekrandaki boyut CSS ile ölçeklenir.
 - Ekrandaki fare konumunu `screenToPage()` fonksiyonu sayfa birimine çevirir.
-- Nesneler kendi sayfalarının içinde kalır. Döndürülmüş nesnenin kapladığı dikdörtgen sayfa sınırını geçemez. Kullanıcı nesneyi kenara sürüklerse nesne kenarda durur.
-- Bir nesne başka bir sayfaya taşınmaz.
+- Bir nesne her zaman tek bir sayfaya aittir ve o sayfanın içinde durur. Döndürülmüş nesnenin kapladığı dikdörtgen sayfa sınırını geçemez. Kullanıcı nesneyi defterin kenarına sürüklerse nesne kenarda durur.
+- Bir nesne aynı açık defterdeki karşı sayfaya taşınabilir (karar 100). Sürüklerken nesne cildi geçip iki sayfanın üstünde gezebilir. Bırakınca nesne, merkezinin düştüğü sayfaya ait olur ve o sayfanın içine itilir. İki sayfa arasında, ikisine birden ait duran nesne olmaz.
+- Karşı sayfaya geçen nesne o sayfada en üste konur, seçili kalır ve o sayfa aktif olur. Geçiş tek undo adımıdır.
+- Karşı sayfada 3 fotoğraf varsa fotoğraf geçmez, kendi sayfasında cilt kenarında durur ve "Bu sayfada en fazla 3 fotoğraf olabilir." mesajı görünür.
+- Boş yüze ("+ Sayfa ekle") ve başka açık defterdeki sayfaya taşıma yoktur.
 - En küçük nesne boyutu 40 × 40 birimdir. Bir nesne sayfadan büyük olamaz.
 
 ### 3.2 Sayfa yerleşimi

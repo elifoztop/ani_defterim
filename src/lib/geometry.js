@@ -35,14 +35,30 @@ export function clampSize({ w, h, rotation }, keepHeight = false) {
   return { w: width, h: height }
 }
 
-const clampAxis = (value, half, size) => (half * 2 >= size ? size / 2 : clamp(value, half, size - half))
+const clampAxis = (value, half, min, max) =>
+  half * 2 >= max - min ? (min + max) / 2 : clamp(value, min + half, max - half)
 
 // Nesneyi sayfanın içine iter. Kenara sürüklenen nesne kenarda durur.
-export function clampItemToPage(item) {
+// minX/maxX yalnızca sürükleme sırasında iki sayfalık alan için değişir (dragBoundsX).
+export function clampItemToPage(item, { minX = 0, maxX = PAGE_W } = {}) {
   const rotation = normalizeAngle(item.rotation)
   const { w, h } = clampSize({ ...item, rotation }, item.type === 'text')
   const { hx, hy } = rotatedHalfExtents(w, h, rotation)
-  return { ...item, w, h, rotation, x: clampAxis(item.x, hx, PAGE_W), y: clampAxis(item.y, hy, PAGE_H) }
+  return { ...item, w, h, rotation, x: clampAxis(item.x, hx, minX, maxX), y: clampAxis(item.y, hy, 0, PAGE_H) }
+}
+
+// Sürüklerken yatay alan (kendi sayfasının koordinatıyla). Karşı sayfa varsa onun alanı da eklenir.
+export function dragBoundsX(side, hasOpposite) {
+  if (!hasOpposite) return { minX: 0, maxX: PAGE_W }
+  return side === 'left' ? { minX: 0, maxX: 2 * PAGE_W } : { minX: -PAGE_W, maxX: PAGE_W }
+}
+
+// Bırakınca nesne merkezinin düştüğü sayfaya ait olur. Bir nesne iki sayfaya birden ait olmaz;
+// sonra o sayfanın içine itilir (karar 100).
+export function dropTarget(x, side) {
+  if (side === 'left' && x > PAGE_W) return { crossed: true, x: x - PAGE_W }
+  if (side === 'right' && x < 0) return { crossed: true, x: x + PAGE_W }
+  return { crossed: false, x }
 }
 
 // Ekrandaki fare konumunu sayfa birimine çevirir. rect: sayfa öğesinin getBoundingClientRect() sonucu.

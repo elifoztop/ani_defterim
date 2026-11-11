@@ -190,4 +190,8 @@ Elle deneme: yapıldı (canlı bağlantıda hızlı deneme; Aşama 2'de denenmey
 
 ## Ek — Sayfa çevirme animasyonu (karar 99)
 
+Elle deneme: yapıldı.
+
+## Ek — Nesneyi karşı sayfaya taşıma (karar 100)
+
 Elle deneme: bekliyor.

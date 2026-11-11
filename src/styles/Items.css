@@ -154,3 +154,8 @@
   white-space: nowrap;
   text-overflow: ellipsis;
 }
+
+/* Sürüklenen nesne karşı sayfanın da üstünde görünür (karar 100). */
+.item-frame--dragging {
+  z-index: 20;
+}
