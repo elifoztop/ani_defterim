@@ -119,7 +119,7 @@ Bu dosya, projenin hangi aşamasında yapay zekânın nasıl kullanıldığını
   - Ekran görüntüsünü üretim derlemesinden başsız Edge ile aldı (karar 97). Görüntüde paneldeki çizim önizlemelerinin kesim kenarının fazla kalın olduğunu fark edip düzeltti (karar 98).
   - Son sürümü GitHub'a gönderdi; Netlify `main` dalından yeniden yayınlar.
 - Kullanılan eklenti / komut: Claude Code (Bash, Read, Write, Edit, PowerShell), code-simplifier eklentisi, Microsoft Edge başsız mod, `vite preview`, `npm run build`, `npm run lint`, `npm test`.
-- Benim kontrol ettiğim ya da değiştirdiğim: (Taslak, Claude yazdı) Aşama 4'ün hızlı denemesini yapıp çizimleri onayladım. Canlı bağlantıda kabul testleri ve bu AI-LOG'un "Benim kontrol ettiğim" satırlarının düzeltilmesi bekliyor.
+- Benim kontrol ettiğim ya da değiştirdiğim: (Taslak, Claude yazdı) Aşama 4'ün hızlı denemesini yapıp çizimleri onayladım. Canlı bağlantıda hızlı denemeyi yapıp "tamam" dedim. Bu AI-LOG'un "Benim kontrol ettiğim" taslak satırlarını ve README'yi okuyup düzelteceğim.
 - Bilinen eksikler:
-  - SPEC 11 kabul testleri canlı bağlantıda henüz yapılmadı. Aşama 2'deki bozuk kayıt, depolama doldurma ve iki sekme senaryoları elle denenmedi.
+  - Canlı bağlantıda hızlı deneme yapıldı; bozuk kayıt, depolama doldurma ve iki sekme senaryoları da bu turda denendi.
   - Sayfa çevirme animasyonu "zaman kalırsa" listesinde (karar 77).
